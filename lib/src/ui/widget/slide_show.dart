@@ -44,7 +44,7 @@ class _SlideShowState extends State<SlideShow> {
 
   imageSlider(int index) {
     return Container(
-      child: Image.network(images[index], fit: BoxFit.fill),
+      child: Image.network(images[index], fit: BoxFit.cover),
     );
   }
 }

@@ -63,7 +63,7 @@ class _GridViewPageState extends State<GridViewPage> {
     return Container(
 //      mainAxisAlignment: MainAxisAlignment.spaceBetween,
 //      crossAxisAlignment: CrossAxisAlignment.stretch,
-       child: Image.network(imagesURL[index], fit: BoxFit.fill),
+       child: Image.network(imagesURL[index], fit: BoxFit.cover),
     );
   }
 }
