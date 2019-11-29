@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:movie_app/src/model/movie.dart';
+import 'package:movie_app/src/ui/booking.dart';
 import 'package:movie_app/src/ui/home_page.dart';
 
 class DetailsMovie extends StatefulWidget {
@@ -7,11 +9,13 @@ class DetailsMovie extends StatefulWidget {
 }
 
 class _DetailsMovieState extends State<DetailsMovie> {
+  //List<Movie> movieList = List();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
       body: SingleChildScrollView(
+        padding: EdgeInsets.all(0),
         child: Stack(
           children: <Widget>[
             SizedBox(
@@ -76,44 +80,95 @@ class _DetailsMovieState extends State<DetailsMovie> {
                     height: 10.0,
                   ),
                   Container(
+                    padding: EdgeInsets.only(left: 30, bottom: 20),
                     decoration: BoxDecoration(
                       color: Colors.white,
                       borderRadius: BorderRadius.circular(5.0),
                     ),
                     child: Column(
                       children: <Widget>[
-                        ListTile(
-                          leading: Text("ĐẠO DIỄN", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),),
-                          title: Text("Rian Johnson", style: TextStyle(fontSize: 16),),
+                        Row(
+                          children: <Widget>[
+                            Expanded(
+                                flex: 1,
+                                child: Text(
+                                  "ĐẠO DIỄN",
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 16),
+                                )),
+                            Expanded(
+                              flex: 1,
+                              child: Text(
+                                "Rian Johnson",
+                                style: TextStyle(fontSize: 16),
+                              ),
+                            ),
+                          ],
                         ),
-                        ListTile(
-                          leading: Text("ĐẠO DIỄN", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),),
-                          title: Text("Rian Johnson"),
+                        Row(
+                          children: <Widget>[
+                            Expanded(
+                                flex: 1,
+                                child: Align(
+                                  alignment: Alignment.topLeft,
+                                  child: Text(
+                                    "DIỄN VIÊN",
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 16),
+                                  ),
+                                )),
+                            Expanded(
+                              flex: 1,
+                              child: Text(
+                                "Rian Johnson, Daney Wesney, Jhony Anderson, Wayne Rooney",
+                                style: TextStyle(fontSize: 16),
+                              ),
+                            ),
+                          ],
                         ),
-                        ListTile(
-                          leading: Text("ĐẠO DIỄN", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),),
-                          title: Text("Rian Johnson"),
+                        Row(
+                          children: <Widget>[
+                            Expanded(
+                                flex: 1,
+                                child: Text(
+                                  "NHÀ SẢN XUẤT",
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 16),
+                                )),
+                            Expanded(
+                              flex: 1,
+                              child: Text(
+                                "Rian Johnson",
+                                style: TextStyle(fontSize: 16),
+                              ),
+                            ),
+                          ],
                         ),
-                        ListTile(
-                          leading: Text(
-                            "THỜI LƯỢNG",
-                            style: TextStyle(
-                                fontWeight: FontWeight.bold, fontSize: 16),
-                          ),
-                          title: Text("181 phut"),
-                        ),
-                        ListTile(
-                          leading: Text(
-                            "NGÀY KHỞI CHIẾU",
-                            style: TextStyle(
-                                fontWeight: FontWeight.bold, fontSize: 16),
-                          ),
-                          title: Text("29/11/2019"),
+                        Row(
+                          children: <Widget>[
+                            Expanded(
+                                flex: 1,
+                                child: Text(
+                                  "NGÀY KHỞI CHIẾU",
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 16),
+                                )),
+                            Expanded(
+                              flex: 1,
+                              child: Text(
+                                "29/11/2019",
+                                style: TextStyle(fontSize: 16),
+                              ),
+                            ),
+                          ],
                         ),
                       ],
                     ),
                   ),
-
                   Container(
                     decoration: BoxDecoration(
                       color: Colors.white,
@@ -129,11 +184,17 @@ class _DetailsMovieState extends State<DetailsMovie> {
                   ),
                   Container(
                     width: MediaQuery.of(context).size.width,
-                    color: Colors.blue,
+                    //color: Colors.blue,
                     child: RaisedButton(
-                      child: Text("Share"),
-                      onPressed: (){
-                        Navigator.push(context, MaterialPageRoute(builder: (context) => HomePage()));
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      child: Text("Booking"),
+                      onPressed: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => BookingPage()));
                       },
                       color: Colors.blue,
                     ),
