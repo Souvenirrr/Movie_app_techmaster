@@ -46,8 +46,9 @@ class _HomePageState extends State<HomePage> {
               indicatorColor: Colors.white,
               unselectedLabelColor: Colors.grey,
               labelColor: Colors.blue,
+              controller: _tabController,
               tabs: <Widget>[
-                Container(
+                Tab(
                   //alignment: Alignment.topLeft,
                   //margin: EdgeInsets.fromLTB(0, 0, 0, 5),
                   child: Text(
@@ -59,7 +60,6 @@ class _HomePageState extends State<HomePage> {
                   ),
                 ),
                 Tab(
-                 //color: _tabController.index == 2 ? Colors.blue : Colors.grey,
                   child: Text(
                     "SẮP CHIẾU",
                     style: TextStyle(
@@ -68,11 +68,11 @@ class _HomePageState extends State<HomePage> {
                         fontWeight: FontWeight.bold),
                   ),
                 ),
-                Container(
-                  alignment: Alignment.topRight,
+                Tab(
+                  //alignment: Alignment.topRight,
                   //margin: EdgeInsets.fromLTRB(0, 0, 0, 5),
                   child: Text(
-                    "ĐẶC BIÊT",
+                    "ĐẶC BIỆT",
                     style: TextStyle(
                         fontSize: 18,
                         color: Colors.grey,

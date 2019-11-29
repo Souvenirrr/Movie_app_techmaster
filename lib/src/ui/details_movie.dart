@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:movie_app/src/model/movie.dart';
-import 'package:movie_app/src/ui/booking.dart';
-import 'package:movie_app/src/ui/home_page.dart';
+import 'package:movie_app/src/ui/booking_page.dart';
+import 'package:flutter_youtube/flutter_youtube.dart';
 
 class DetailsMovie extends StatefulWidget {
   @override
@@ -9,6 +8,7 @@ class DetailsMovie extends StatefulWidget {
 }
 
 class _DetailsMovieState extends State<DetailsMovie> {
+
   //List<Movie> movieList = List();
   @override
   Widget build(BuildContext context) {
@@ -18,12 +18,45 @@ class _DetailsMovieState extends State<DetailsMovie> {
         padding: EdgeInsets.all(0),
         child: Stack(
           children: <Widget>[
-            SizedBox(
-              height: 250,
-              width: double.infinity,
-              child: Image.network(
-                "https://images.designtrends.com/wp-content/uploads/2016/04/07124248/Avengers-Background.jpg",
-                fit: BoxFit.cover,
+            GestureDetector(
+              onTap: () {
+                FlutterYoutube.playYoutubeVideoByUrl(
+                  apiKey: "AIzaSyCgzY57cD1lg_iVJT9JVI5_2MQuzXetKcA",
+                  videoUrl: "https://www.youtube.com/watch?v=TcMBFSGVi1c",
+                  autoPlay: true,
+                  fullScreen: false,
+                );
+              },
+              child: SizedBox(
+                height: 250,
+                width: double.infinity,
+                child: Image.network(
+                  "https://images.designtrends.com/wp-content/uploads/2016/04/07124248/Avengers-Background.jpg",
+                  fit: BoxFit.cover,
+                ),
+              ),
+            ),
+            Container(
+              //alignment: Alignment.center,
+              margin: EdgeInsets.only(
+                  left: MediaQuery.of(context).size.width / 2.4, top: 100),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(25),
+              ),
+              //color: Colors.orange,
+              child: IconButton(
+                padding: EdgeInsets.all(10),
+                alignment: Alignment.center,
+                color: Colors.white,
+                icon: Icon(Icons.play_arrow),
+                onPressed: () {
+                  FlutterYoutube.playYoutubeVideoByUrl(
+                    apiKey: "AIzaSyCgzY57cD1lg_iVJT9JVI5_2MQuzXetKcA",
+                    videoUrl: "https://www.youtube.com/watch?v=qku_cEgr39A",
+                    autoPlay: true,
+                    fullScreen: false,
+                  );
+                },
               ),
             ),
             Container(
