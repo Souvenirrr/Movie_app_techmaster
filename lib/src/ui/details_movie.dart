@@ -48,7 +48,7 @@ class _DetailsMovieState extends State<DetailsMovie> {
             GestureDetector(
               onTap: () {
                 FlutterYoutube.playYoutubeVideoByUrl(
-                  apiKey: "AIzaSyCgzY57cD1lg_iVJT9JVI5_2MQuzXetKcA",
+                  apiKey: "Key_Youtube",
                   videoUrl: "https://www.youtube.com/watch?v=jhtKTKn6PlI",
                   autoPlay: true,
                   fullScreen: false,
@@ -88,7 +88,7 @@ class _DetailsMovieState extends State<DetailsMovie> {
                 icon: Icon(Icons.play_arrow),
                 onPressed: () {
                   FlutterYoutube.playYoutubeVideoByUrl(
-                    apiKey: "AIzaSyCgzY57cD1lg_iVJT9JVI5_2MQuzXetKcA",
+                    apiKey: "Key_Youtube",
                     videoUrl: movie.data[widget.itemIndex].movieTrailer,
                     autoPlay: true,
                     fullScreen: false,
