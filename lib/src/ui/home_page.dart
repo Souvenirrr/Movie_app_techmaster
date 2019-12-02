@@ -17,7 +17,7 @@ class _HomePageState extends State<HomePage> {
         length: 3,
         child: Scaffold(
           appBar: AppBar(
-            backgroundColor: Colors.white,
+            backgroundColor: Colors.grey[200],
             centerTitle: false,
             leading: IconButton(
               color: Colors.blue,
@@ -32,6 +32,7 @@ class _HomePageState extends State<HomePage> {
             ),
             actions: <Widget>[
               Container(
+                color: Colors.grey[200],
                 padding: EdgeInsets.only(right: 20),
                 child: Image.network(
                   "https://lh3.googleusercontent.com/PPy0A3ZJz2gKb9xzTw8FDtuVDKnviZEBU0Rk0M4Lptfw_gH74aBBi3lJ1mWMKeOQXyo",
@@ -49,13 +50,10 @@ class _HomePageState extends State<HomePage> {
               controller: _tabController,
               tabs: <Widget>[
                 Tab(
-                  //alignment: Alignment.topLeft,
-                  //margin: EdgeInsets.fromLTB(0, 0, 0, 5),
                   child: Text(
                     "ĐANG CHIẾU",
                     style: TextStyle(
                         fontSize: 18,
-                        color: Colors.grey,
                         fontWeight: FontWeight.bold),
                   ),
                 ),
@@ -64,18 +62,14 @@ class _HomePageState extends State<HomePage> {
                     "SẮP CHIẾU",
                     style: TextStyle(
                         fontSize: 18,
-                        color: Colors.grey,
                         fontWeight: FontWeight.bold),
                   ),
                 ),
                 Tab(
-                  //alignment: Alignment.topRight,
-                  //margin: EdgeInsets.fromLTRB(0, 0, 0, 5),
                   child: Text(
                     "ĐẶC BIỆT",
                     style: TextStyle(
                         fontSize: 18,
-                        color: Colors.grey,
                         fontWeight: FontWeight.bold),
                   ),
                 ),

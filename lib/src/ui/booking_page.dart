@@ -18,11 +18,14 @@ class _BookingPageState extends State<BookingPage> {
     'Rap Long Bien',
   ];
 
+  List<dynamic> _selectedEvents;
+
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
     _calendarController = CalendarController();
+    _selectedEvents = [];
   }
 
   @override
@@ -36,7 +39,7 @@ class _BookingPageState extends State<BookingPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.grey[200],
+      backgroundColor: Colors.grey[300],
       appBar: AppBar(
         title: Text("Avenger: Endgame 2019"),
       ),
@@ -49,8 +52,33 @@ class _BookingPageState extends State<BookingPage> {
               initialCalendarFormat: CalendarFormat.week,
               startDay: value,
               startingDayOfWeek: StartingDayOfWeek.monday,
+              calendarStyle: CalendarStyle(
+                  canEventMarkersOverflow: true,
+                  selectedColor: Theme.of(context).primaryColor,
+                  todayStyle: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 18.0,
+                      color: Colors.white)),
+              headerStyle: HeaderStyle(
+                centerHeaderTitle: true,
+                formatButtonDecoration: BoxDecoration(
+                  color: Colors.blueAccent[200],
+                  borderRadius: BorderRadius.circular(20.0),
+                ),
+                formatButtonTextStyle: TextStyle(color: Colors.white),
+                formatButtonShowsNext: false,
+              ),
+              onDaySelected: (date, events) {
+                print(date.day);
+                print(events);
+                events = _cinema;
+
+                setState(() {
+                  event();
+                  _selectedEvents = events;
+                });
+              },
             ),
-            event(),
           ],
         ),
       ),
@@ -62,7 +90,7 @@ class _BookingPageState extends State<BookingPage> {
       //alignment: Alignment.topCenter,
       width: MediaQuery.of(context).size.width,
       height: MediaQuery.of(context).size.height,
-      color: Colors.grey[200],
+      color: Colors.grey[300],
       //padding: EdgeInsets.only(top: 10.0),
       child: ListView.builder(
         padding: EdgeInsets.all(0),
@@ -87,10 +115,14 @@ class _BookingPageState extends State<BookingPage> {
                       alignment: WrapAlignment.center,
                       children: <Widget>[
                         RaisedButton(
+                          color: Colors.white,
                           shape: new RoundedRectangleBorder(
                               borderRadius: new BorderRadius.circular(18.0),
-                              side: BorderSide(color: Colors.grey)),
-                          child: Text("11:30"),
+                              side: BorderSide(color: Colors.white)),
+                          child: Text(
+                            "11:30",
+                            style: TextStyle(color: Colors.black),
+                          ),
                           onPressed: () {
                             print(("11:30"));
                             Navigator.push(
@@ -100,9 +132,10 @@ class _BookingPageState extends State<BookingPage> {
                           },
                         ),
                         RaisedButton(
+                          color: Colors.white,
                           shape: new RoundedRectangleBorder(
                               borderRadius: new BorderRadius.circular(18.0),
-                              side: BorderSide(color: Colors.grey)),
+                              side: BorderSide(color: Colors.white)),
                           child: Text("13:30"),
                           onPressed: () {
                             print(("13:30"));
@@ -113,9 +146,10 @@ class _BookingPageState extends State<BookingPage> {
                           },
                         ),
                         RaisedButton(
+                          color: Colors.white,
                           shape: new RoundedRectangleBorder(
                               borderRadius: new BorderRadius.circular(18.0),
-                              side: BorderSide(color: Colors.grey)),
+                              side: BorderSide(color: Colors.white)),
                           child: Text("15:30"),
                           onPressed: () {
                             print(("15:30"));
@@ -126,9 +160,10 @@ class _BookingPageState extends State<BookingPage> {
                           },
                         ),
                         RaisedButton(
+                          color: Colors.white,
                           shape: new RoundedRectangleBorder(
                               borderRadius: new BorderRadius.circular(18.0),
-                              side: BorderSide(color: Colors.grey)),
+                              side: BorderSide(color: Colors.white)),
                           child: Text("17:30"),
                           onPressed: () {
                             print(("17:30"));
@@ -139,9 +174,10 @@ class _BookingPageState extends State<BookingPage> {
                           },
                         ),
                         RaisedButton(
+                          color: Colors.white,
                           shape: new RoundedRectangleBorder(
                               borderRadius: new BorderRadius.circular(18.0),
-                              side: BorderSide(color: Colors.grey)),
+                              side: BorderSide(color: Colors.white)),
                           child: Text("19:30"),
                           onPressed: () {
                             print(("19:30"));
@@ -152,9 +188,10 @@ class _BookingPageState extends State<BookingPage> {
                           },
                         ),
                         RaisedButton(
+                          color: Colors.white,
                           shape: new RoundedRectangleBorder(
                               borderRadius: new BorderRadius.circular(18.0),
-                              side: BorderSide(color: Colors.grey)),
+                              side: BorderSide(color: Colors.white)),
                           child: Text("19:30"),
                           onPressed: () {
                             print(("19:30"));
@@ -177,21 +214,137 @@ class _BookingPageState extends State<BookingPage> {
                       alignment: WrapAlignment.center,
                       children: <Widget>[
                         RaisedButton(
+                          color: Colors.white,
                           shape: new RoundedRectangleBorder(
                               borderRadius: new BorderRadius.circular(18.0),
-                              side: BorderSide(color: Colors.grey)),
+                              side: BorderSide(color: Colors.white)),
                           child: Text("11:30"),
                           onPressed: () {
                             print(("11:30"));
                           },
                         ),
                         RaisedButton(
+                          color: Colors.white,
                           shape: new RoundedRectangleBorder(
                               borderRadius: new BorderRadius.circular(18.0),
-                              side: BorderSide(color: Colors.grey)),
+                              side: BorderSide(color: Colors.white)),
                           child: Text("13:30"),
                           onPressed: () {
                             print(("13:30"));
+                          },
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          );
+        },
+      ),
+    );
+  }
+
+  Widget event1() {
+    return Container(
+      //alignment: Alignment.topCenter,
+      width: MediaQuery.of(context).size.width,
+      height: MediaQuery.of(context).size.height,
+      color: Colors.grey[300],
+      //padding: EdgeInsets.only(top: 10.0),
+      child: ListView.builder(
+        padding: EdgeInsets.all(0),
+        itemCount: _cinema.length,
+        itemBuilder: (BuildContext context, int index) {
+          return ExpansionTile(
+            title: Text(_cinema[index]),
+            children: <Widget>[
+              Container(
+                alignment: Alignment.topCenter,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: <Widget>[
+                    Text(
+                      "2D",
+                      style:
+                          TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                    ),
+                    Wrap(
+                      spacing: 10.0,
+                      runSpacing: 6.0,
+                      alignment: WrapAlignment.center,
+                      children: <Widget>[
+                        RaisedButton(
+                          color: Colors.white,
+                          shape: new RoundedRectangleBorder(
+                              borderRadius: new BorderRadius.circular(18.0),
+                              side: BorderSide(color: Colors.white)),
+                          child: Text(
+                            "11:30",
+                            style: TextStyle(color: Colors.black),
+                          ),
+                          onPressed: () {
+                            print(("11:30"));
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => SeatPage()));
+                          },
+                        ),
+                        RaisedButton(
+                          color: Colors.white,
+                          shape: new RoundedRectangleBorder(
+                              borderRadius: new BorderRadius.circular(18.0),
+                              side: BorderSide(color: Colors.white)),
+                          child: Text("15:30"),
+                          onPressed: () {
+                            print(("15:30"));
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => SeatPage()));
+                          },
+                        ),
+                        RaisedButton(
+                          color: Colors.white,
+                          shape: new RoundedRectangleBorder(
+                              borderRadius: new BorderRadius.circular(18.0),
+                              side: BorderSide(color: Colors.white)),
+                          child: Text("17:30"),
+                          onPressed: () {
+                            print(("17:30"));
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => SeatPage()));
+                          },
+                        ),
+                        RaisedButton(
+                          color: Colors.white,
+                          shape: new RoundedRectangleBorder(
+                              borderRadius: new BorderRadius.circular(18.0),
+                              side: BorderSide(color: Colors.white)),
+                          child: Text("19:30"),
+                          onPressed: () {
+                            print(("19:30"));
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => SeatPage()));
+                          },
+                        ),
+                        RaisedButton(
+                          color: Colors.white,
+                          shape: new RoundedRectangleBorder(
+                              borderRadius: new BorderRadius.circular(18.0),
+                              side: BorderSide(color: Colors.white)),
+                          child: Text("19:30"),
+                          onPressed: () {
+                            print(("19:30"));
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => SeatPage()));
                           },
                         ),
                       ],

@@ -1,19 +1,46 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:movie_app/src/model/movie.dart';
 import 'package:movie_app/src/ui/booking_page.dart';
 import 'package:flutter_youtube/flutter_youtube.dart';
+import 'package:http/http.dart' as http;
 
 class DetailsMovie extends StatefulWidget {
+  final int itemIndex;
+
   @override
   _DetailsMovieState createState() => _DetailsMovieState();
+
+  DetailsMovie(this.itemIndex);
 }
 
 class _DetailsMovieState extends State<DetailsMovie> {
-
   //List<Movie> movieList = List();
+
+  Movie movie;
+  List movieList;
+  static var urlMovie = "http://192.168.1.9/movies/future";
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    _fetchDataMovie();
+  }
+
+  _fetchDataMovie() async {
+    var res =  await http.get(urlMovie);
+    var decode = jsonDecode(utf8.decode(res.bodyBytes));
+    setState(() {
+      movie = Movie.fromJson(decode);
+      print(movie.toJson());
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: Colors.grey[200],
       body: SingleChildScrollView(
         padding: EdgeInsets.all(0),
         child: Stack(
@@ -22,7 +49,7 @@ class _DetailsMovieState extends State<DetailsMovie> {
               onTap: () {
                 FlutterYoutube.playYoutubeVideoByUrl(
                   apiKey: "AIzaSyCgzY57cD1lg_iVJT9JVI5_2MQuzXetKcA",
-                  videoUrl: "https://www.youtube.com/watch?v=TcMBFSGVi1c",
+                  videoUrl: "https://www.youtube.com/watch?v=jhtKTKn6PlI",
                   autoPlay: true,
                   fullScreen: false,
                 );
@@ -31,9 +58,19 @@ class _DetailsMovieState extends State<DetailsMovie> {
                 height: 250,
                 width: double.infinity,
                 child: Image.network(
-                  "https://images.designtrends.com/wp-content/uploads/2016/04/07124248/Avengers-Background.jpg",
+                 movie.data[widget.itemIndex].moviePoster,
                   fit: BoxFit.cover,
                 ),
+              ),
+            ),
+            Container(
+              padding: EdgeInsets.only(top: 30),
+              child: IconButton(
+                icon: Icon(Icons.arrow_back),
+                color: Colors.white,
+                onPressed: (){
+                  Navigator.pop(context);
+                },
               ),
             ),
             Container(
@@ -52,7 +89,7 @@ class _DetailsMovieState extends State<DetailsMovie> {
                 onPressed: () {
                   FlutterYoutube.playYoutubeVideoByUrl(
                     apiKey: "AIzaSyCgzY57cD1lg_iVJT9JVI5_2MQuzXetKcA",
-                    videoUrl: "https://www.youtube.com/watch?v=qku_cEgr39A",
+                    videoUrl: movie.data[widget.itemIndex].movieTrailer,
                     autoPlay: true,
                     fullScreen: false,
                   );
@@ -69,7 +106,7 @@ class _DetailsMovieState extends State<DetailsMovie> {
                         padding: EdgeInsets.all(16.0),
                         margin: EdgeInsets.only(top: 16.0),
                         decoration: BoxDecoration(
-                            color: Colors.white,
+                            color: Colors.grey[200],
                             borderRadius: BorderRadius.circular(5.0)),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -79,9 +116,9 @@ class _DetailsMovieState extends State<DetailsMovie> {
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: <Widget>[
-                                  Text("Avenger: Endgame",
-                                      style: Theme.of(context).textTheme.title),
-                                  Text("Thoi gian: 181 phut",
+                                  Text(movie.data[widget.itemIndex].movieName,
+                                      style: TextStyle(fontFamily: DefaultTextStyle.of(context).style.fontFamily)),
+                                  Text("Thoi gian: " + movie.data[widget.itemIndex].movieLength,
                                       style: TextStyle(
                                           fontWeight: FontWeight.bold)),
                                 ],
@@ -101,7 +138,7 @@ class _DetailsMovieState extends State<DetailsMovie> {
                           borderRadius: BorderRadius.circular(10),
                           image: DecorationImage(
                             image: NetworkImage(
-                                "https://images.designtrends.com/wp-content/uploads/2016/04/07124248/Avengers-Background.jpg"),
+                                movie.data[widget.itemIndex].moviePoster),
                             fit: BoxFit.cover,
                           ),
                         ),
@@ -115,7 +152,7 @@ class _DetailsMovieState extends State<DetailsMovie> {
                   Container(
                     padding: EdgeInsets.only(left: 30, bottom: 20),
                     decoration: BoxDecoration(
-                      color: Colors.white,
+                      color: Colors.grey[200],
                       borderRadius: BorderRadius.circular(5.0),
                     ),
                     child: Column(
@@ -125,7 +162,7 @@ class _DetailsMovieState extends State<DetailsMovie> {
                             Expanded(
                                 flex: 1,
                                 child: Text(
-                                  "ĐẠO DIỄN",
+                                  "DIỄN VIÊN",
                                   style: TextStyle(
                                       fontWeight: FontWeight.bold,
                                       fontSize: 16),
@@ -146,7 +183,7 @@ class _DetailsMovieState extends State<DetailsMovie> {
                                 child: Align(
                                   alignment: Alignment.topLeft,
                                   child: Text(
-                                    "DIỄN VIÊN",
+                                    "THỂ LOẠI",
                                     style: TextStyle(
                                         fontWeight: FontWeight.bold,
                                         fontSize: 16),
@@ -155,7 +192,7 @@ class _DetailsMovieState extends State<DetailsMovie> {
                             Expanded(
                               flex: 1,
                               child: Text(
-                                "Rian Johnson, Daney Wesney, Jhony Anderson, Wayne Rooney",
+                                movie.data[widget.itemIndex].movieGenres,
                                 style: TextStyle(fontSize: 16),
                               ),
                             ),
@@ -166,7 +203,7 @@ class _DetailsMovieState extends State<DetailsMovie> {
                             Expanded(
                                 flex: 1,
                                 child: Text(
-                                  "NHÀ SẢN XUẤT",
+                                  "LOẠI PHIM",
                                   style: TextStyle(
                                       fontWeight: FontWeight.bold,
                                       fontSize: 16),
@@ -174,7 +211,7 @@ class _DetailsMovieState extends State<DetailsMovie> {
                             Expanded(
                               flex: 1,
                               child: Text(
-                                "Rian Johnson",
+                                movie.data[widget.itemIndex].movieFormat,
                                 style: TextStyle(fontSize: 16),
                               ),
                             ),
@@ -193,7 +230,7 @@ class _DetailsMovieState extends State<DetailsMovie> {
                             Expanded(
                               flex: 1,
                               child: Text(
-                                "29/11/2019",
+                                movie.data[widget.itemIndex].movieRelease,
                                 style: TextStyle(fontSize: 16),
                               ),
                             ),
@@ -204,11 +241,11 @@ class _DetailsMovieState extends State<DetailsMovie> {
                   ),
                   Container(
                     decoration: BoxDecoration(
-                      color: Colors.white,
+                      color: Colors.grey[200],
                       borderRadius: BorderRadius.circular(5.0),
                     ),
                     child: Text(
-                      "Hôm nay trời rất đẹp. Trời hôm nay đẹp quá. Tôi muốn đi về nhà. Tôi muốn đi trên chiếc xe máy của mình. Tôi muốn hoàn thành bài viết của mình. Tôi muốn viết cho nó dài dài ra một tí.",
+                      movie.data[widget.itemIndex].movieDescription,
                       style: TextStyle(fontSize: 18),
                     ),
                   ),
@@ -222,7 +259,7 @@ class _DetailsMovieState extends State<DetailsMovie> {
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(10),
                       ),
-                      child: Text("Booking"),
+                      child: Text("Booking", style: TextStyle(color: Colors.white),),
                       onPressed: () {
                         Navigator.push(
                             context,

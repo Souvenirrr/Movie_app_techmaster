@@ -9,6 +9,7 @@ class _SeatPageState extends State<SeatPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.grey[200],
       appBar: AppBar(
         //backgroundColor: Colors.white,
         title: Text("Seat Page"),
@@ -395,8 +396,6 @@ class _SeatPageState extends State<SeatPage> {
                           print("A6");
                         },
                         child: Container(
-                          //color: Colors.blue,
-                          //alignment: Alignment.topCenter,
                           margin: EdgeInsets.only(top: 20.0),
                           padding: EdgeInsets.all(10.0),
                           decoration: BoxDecoration(
@@ -477,7 +476,7 @@ class _SeatPageState extends State<SeatPage> {
                     ),
                     child: Text("Thanh toan"),
                     color: Colors.orange,
-                    onPressed: (){
+                    onPressed: () {
                       print("Thanh toan...");
                     },
                   ),
