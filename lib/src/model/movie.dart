@@ -1,85 +1,81 @@
 class Movie {
-  String id;
-  String title;
-  String imgUrl;
-  String decription;
-  String ciname;
-  String year;
-  String duration;
+  String status;
+  String msg;
+  List<Data> data;
 
-  Movie({
-    this.id,
-    this.title,
-    this.imgUrl,
-    this.decription,
-    this.ciname,
-    this.year,
-    this.duration,
-  });
+  Movie({this.status, this.msg, this.data});
+
+  Movie.fromJson(Map<String, dynamic> json) {
+    status = json['status'];
+    msg = json['msg'];
+    if (json['data'] != null) {
+      data = new List<Data>();
+      json['data'].forEach((v) {
+        data.add(new Data.fromJson(v));
+      });
+    }
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['status'] = this.status;
+    data['msg'] = this.msg;
+    if (this.data != null) {
+      data['data'] = this.data.map((v) => v.toJson()).toList();
+    }
+    return data;
+  }
 }
 
-final movieList = [
-  Movie(
-    id: '01',
-    title: 'Avenger: Endgame',
-    imgUrl: 'https://wallpaperaccess.com/full/294561.jpg',
-    decription: 'asjdf aweofja aiojewf jawef aweifj wjefiaw fjwaeofj owajef jioawef jiwefo jaef oj wfaeof jwiaef aiojwef',
-    ciname: 'Rap Thanh Tri',
-    year: '2019',
-    duration: '181 min'
-  ),
-  Movie(
-      id: '01',
-      title: 'Avenger: Endgame',
-      imgUrl: 'https://wallpaperaccess.com/full/294561.jpg',
-      decription: 'asjdf aweofja aiojewf jawef aweifj wjefiaw fjwaeofj owajef jioawef jiwefo jaef oj wfaeof jwiaef aiojwef',
-      ciname: 'Rap Thai Nguyen',
-      year: '2019',
-      duration: '181 min'
-  ),
-  Movie(
-      id: '01',
-      title: 'Avenger: Endgame',
-      imgUrl: 'https://wallpaperaccess.com/full/294561.jpg',
-      decription: 'asjdf aweofja aiojewf jawef aweifj wjefiaw fjwaeofj owajef jioawef jiwefo jaef oj wfaeof jwiaef aiojwef',
-      ciname: 'Rap Thai Nguyen',
-      year: '2019',
-      duration: '181 min'
-  ),
-  Movie(
-      id: '01',
-      title: 'Avenger: Endgame',
-      imgUrl: 'https://wallpaperaccess.com/full/294561.jpg',
-      decription: 'asjdf aweofja aiojewf jawef aweifj wjefiaw fjwaeofj owajef jioawef jiwefo jaef oj wfaeof jwiaef aiojwef',
-      ciname: 'Rap Thai Nguyen',
-      year: '2019',
-      duration: '181 min'
-  ),
-  Movie(
-      id: '01',
-      title: 'Avenger: Endgame',
-      imgUrl: 'https://wallpaperaccess.com/full/294561.jpg',
-      decription: 'asjdf aweofja aiojewf jawef aweifj wjefiaw fjwaeofj owajef jioawef jiwefo jaef oj wfaeof jwiaef aiojwef',
-      ciname: 'Rap Thai Nguyen',
-      year: '2019',
-      duration: '181 min'
-  ),
-  Movie(
-      id: '01',
-      title: 'Avenger: Endgame',
-      imgUrl: 'https://wallpaperaccess.com/full/294561.jpg',
-      decription: 'asjdf aweofja aiojewf jawef aweifj wjefiaw fjwaeofj owajef jioawef jiwefo jaef oj wfaeof jwiaef aiojwef',
-      ciname: 'Rap Thanh Hoa',
-      year: '2019',
-      duration: '181 min'
-  ),
-  Movie(
-      id: '01',
-      title: 'Avenger: Endgame',
-      imgUrl: 'https://wallpaperaccess.com/full/294561.jpg',
-      decription: 'asjdf aweofja aiojewf jawef aweifj wjefiaw fjwaeofj owajef jioawef jiwefo jaef oj wfaeof jwiaef aiojwef',
-      ciname: 'Rap Thanh Hoa',
-      year: '2019',
-      duration: '181 min'
-  ),
-];
+class Data {
+  int movieId;
+  String movieName;
+  String movieDescription;
+  String movieTrailer;
+  String movieCens;
+  String movieGenres;
+  String movieRelease;
+  String movieLength;
+  String movieFormat;
+  String moviePoster;
+
+  Data(
+      {this.movieId,
+        this.movieName,
+        this.movieDescription,
+        this.movieTrailer,
+        this.movieCens,
+        this.movieGenres,
+        this.movieRelease,
+        this.movieLength,
+        this.movieFormat,
+        this.moviePoster});
+
+  Data.fromJson(Map<String, dynamic> json) {
+    movieId = json['movieId'];
+    movieName = json['movieName'];
+    movieDescription = json['movieDescription'];
+    movieTrailer = json['movieTrailer'];
+    movieCens = json['movieCens'];
+    movieGenres = json['movieGenres'];
+    movieRelease = json['movieRelease'];
+    movieLength = json['movieLength'];
+    movieFormat = json['movieFormat'];
+    moviePoster = json['moviePoster'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['movieId'] = this.movieId;
+    data['movieName'] = this.movieName;
+    data['movieDescription'] = this.movieDescription;
+    data['movieTrailer'] = this.movieTrailer;
+    data['movieCens'] = this.movieCens;
+    data['movieGenres'] = this.movieGenres;
+    data['movieRelease'] = this.movieRelease;
+    data['movieLength'] = this.movieLength;
+    data['movieFormat'] = this.movieFormat;
+    data['moviePoster'] = this.moviePoster;
+    return data;
+  }
+}
