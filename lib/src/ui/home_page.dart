@@ -86,13 +86,13 @@ class _HomePageState extends State<HomePage> {
                   children: <Widget>[
                     Container(
                       height: MediaQuery.of(context).size.height / 5,
-                      child: SlideShow(),
+                      child: SlideShow("https://dgvapi.herokuapp.com/movies/now"),
                     ),
                     Container(
                       //padding: EdgeInsets.only(top: 20),
                       color: Colors.orange,
                       height: MediaQuery.of(context).size.height / 2,
-                      child: GridViewPage(),
+                      child: GridViewPage("https://dgvapi.herokuapp.com/movies/now"),
                     )
                   ],
                 ),
@@ -100,19 +100,19 @@ class _HomePageState extends State<HomePage> {
                   children: <Widget>[
                     Container(
                       height: MediaQuery.of(context).size.height / 5,
-                      child: SlideShow(),
+                      child: SlideShow("https://dgvapi.herokuapp.com/movies/future"),
                     ),
                     Container(
                       padding: EdgeInsets.only(top: 20),
                       //color: Colors.orange,
                       height: MediaQuery.of(context).size.height / 2,
-                      child: GridViewPage(),
+                      child: GridViewPage("https://dgvapi.herokuapp.com/movies/future"),
                     )
                   ],
                 ),
                 Container(
                   child: Center(
-                    child: SlideShow(),
+                    child: SlideShow("https://dgvapi.herokuapp.com/movies"),
                   ),
                 ),
               ],

@@ -1,19 +1,24 @@
+import 'dart:async';
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:movie_app/src/model/movie.dart';
 import 'package:movie_app/src/ui/details_movie.dart';
 import 'package:http/http.dart' as http;
+import 'package:movie_app/src/ui/widget/load_content.dart';
+import 'package:movie_app/src/ui/widget/loading.dart';
 
 class GridViewPage extends StatefulWidget {
+  var urlMovie;
   @override
   _GridViewPageState createState() => _GridViewPageState();
+  GridViewPage(this.urlMovie);
 }
 
 class _GridViewPageState extends State<GridViewPage> {
   Movie movie;
   List movieList;
-  var urlMovie = "http://192.168.1.9/movies/future";
+
 
   @override
   void initState() {
@@ -23,11 +28,16 @@ class _GridViewPageState extends State<GridViewPage> {
   }
 
   _fetchDataMovie() async {
-    var res =  await http.get(urlMovie);
+    var res =  await http.get(widget.urlMovie);
     var decode = jsonDecode(utf8.decode(res.bodyBytes));
     setState(() {
       movie = Movie.fromJson(decode);
-      print(movie.toJson());
+      //print(movie.toJson());
+    });
+    Future.delayed(Duration(seconds: 2), () {
+      _fetchDataMovie();
+      //Navigator.push(context, MaterialPageRoute(builder: (context) => LoadContent()));
+
     });
   }
 
@@ -36,7 +46,7 @@ class _GridViewPageState extends State<GridViewPage> {
     return Scaffold(
       backgroundColor: Colors.grey[200],
       body: movie == null ? Center(
-        child: CircularProgressIndicator(),
+        child: Loading(),
       ) : GridView.builder(
         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
           crossAxisCount: 3,
