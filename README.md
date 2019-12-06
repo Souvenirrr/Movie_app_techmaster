@@ -1,16 +1,24 @@
-# movie_app
+# Ý tưởng
 
-A new Flutter application.
+- Ứng dụng người dùng có thể xem thông tin và đặt mua vé xem phim
 
-## Getting Started
+# Nền tảng 
+- iOS
+- Android 
 
-This project is a starting point for a Flutter application.
+# Giao diện
 
-A few resources to get you started if this is your first Flutter project:
+**Trang đầu**
+<br>
+<img src="https://i.imgur.com/YDdtU59.png" title="source: imgur.com" width=40% />
+<br>
 
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
+**Chi tiết phim**
+<br>
+<img src="https://i.imgur.com/pofvlja.png" title="source: imgur.com" width=40% />
+<br>
 
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+**Chọn giờ phim**
+<br>
+<img src="https://i.imgur.com/voavXdb.png" title="source: imgur.com" width=40% />
+<br>
