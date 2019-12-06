@@ -5,7 +5,6 @@ import 'package:movie_app/src/model/movie.dart';
 import 'package:movie_app/src/model/schedule.dart';
 import 'package:movie_app/src/ui/seat_page.dart';
 import 'package:movie_app/src/ui/widget/loading.dart';
-import 'package:movie_app/src/ui/widget/time.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:http/http.dart' as http;
 
@@ -30,8 +29,7 @@ class _BookingPageState extends State<BookingPage> {
   Map<DateTime, List> _events;
   Movie movie;
   Schedule schedule;
-  var urlMovie =
-      "https://dgvapi.herokuapp.com/movies";
+  var urlMovie = "https://dgvapi.herokuapp.com/movies";
   var urlSchedule = "https://api.myjson.com/bins/17dkus";
 
   _fetchDataMovie() async {
@@ -66,8 +64,7 @@ class _BookingPageState extends State<BookingPage> {
     _fetchDataSchedule();
     _calendarController = CalendarController();
     _selectedEvents = [];
-    _events = {
-    };
+    _events = {};
   }
 
   @override
@@ -181,7 +178,29 @@ class _BookingPageState extends State<BookingPage> {
                                       fontSize: 20,
                                       fontWeight: FontWeight.bold),
                                 ),
-                                TimePage(),
+                                Row(
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: schedule.data[index].cinemaData
+                                      .map((value) => RaisedButton(
+                                            color: Colors.white,
+                                            shape: new RoundedRectangleBorder(
+                                                borderRadius:
+                                                    new BorderRadius.circular(
+                                                        18.0),
+                                                side: BorderSide(
+                                                    color: Colors.white)),
+                                            child: Text(value.scheduleStart),
+                                            onPressed: () {
+                                              Navigator.push(
+                                                  context,
+                                                  MaterialPageRoute(
+                                                      builder: (context) =>
+                                                          SeatPage()));
+                                            },
+                                          ))
+                                      .toList(),
+                                ),
                               ],
                             ),
                           ),
