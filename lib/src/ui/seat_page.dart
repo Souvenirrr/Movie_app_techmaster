@@ -4,6 +4,27 @@ import 'package:flutter/material.dart';
 import 'package:movie_app/src/model/seatmodel.dart';
 import 'package:http/http.dart' as http;
 import 'package:movie_app/src/ui/widget/seat.dart';
+import 'package:provider/provider.dart';
+
+// ChangeNotifierProvide
+class Counter with ChangeNotifier {
+  int _count = 0;
+  int _totalPrice = 0;
+  int _price = 45000;
+
+  int get count => _count;
+  int get totalPrice => _totalPrice;
+  increment() {
+    _count++;
+    _totalPrice = _count * _price;
+    notifyListeners();
+  }
+  decrement() {
+    _count--;
+    _totalPrice = _count * _price;
+    notifyListeners();
+  }
+}
 
 class SeatPage extends StatefulWidget {
   int index;
@@ -36,103 +57,118 @@ class _SeatPageState extends State<SeatPage> {
   int count  = 0;
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.grey[200],
-      appBar: AppBar(
-        //backgroundColor: Colors.white,
-        title: Text("Seat Page"),
-        centerTitle: true,
-      ),
-      body: SingleChildScrollView(
-        child: Container(
-          alignment: Alignment.topCenter,
-          child: Column(
-            //mainAxisAlignment: CrossAxisAlignment.center,
-            children: <Widget>[
-              Container(
-                alignment: Alignment.topCenter,
-                margin: EdgeInsets.only(top: 20.0),
-                padding: EdgeInsets.all(15.0),
-                decoration: BoxDecoration(
-                  color: Colors.orange,
-                  border: Border.all(color: Colors.black),
-                  borderRadius: BorderRadius.circular(10),
+    return ChangeNotifierProvider<Counter>(
+      create: (context) => Counter(),
+      child: Scaffold(
+        backgroundColor: Colors.grey[200],
+        appBar: AppBar(
+          //backgroundColor: Colors.white,
+          title: Text("Seat Page"),
+          centerTitle: true,
+        ),
+        body: SingleChildScrollView(
+          child: Container(
+            alignment: Alignment.topCenter,
+            child: Column(
+              //mainAxisAlignment: CrossAxisAlignment.center,
+              children: <Widget>[
+                Container(
+                  alignment: Alignment.topCenter,
+                  margin: EdgeInsets.only(top: 20.0),
+                  padding: EdgeInsets.all(15.0),
+                  decoration: BoxDecoration(
+                    color: Colors.orange,
+                    border: Border.all(color: Colors.black),
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  child: Text("Screen"),
                 ),
-                child: Text("Screen"),
-              ),
-              seatModel == null
-                  ? Center(
-                      child: CircularProgressIndicator(),
-                    )
-                  : SingleChildScrollView(
-                      scrollDirection: Axis.horizontal,
-                      padding: EdgeInsets.only(top: 60),
-                      child: Column(
-                        children: <Widget>[
-                          Container(
-                            height: MediaQuery.of(context).size.height / 2,
-                            width: MediaQuery.of(context).size.width,
-                            child: ListView.builder(
-                              scrollDirection: Axis.vertical,
-                              itemCount: seatModel.seatRows.length,
-                              itemBuilder: (context, index) {
-                                return Column(
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: <Widget>[
-                                    Wrap(
-                                      runSpacing: 10.0,
-                                      spacing: 10.0,
-                                      crossAxisAlignment:
-                                          WrapCrossAlignment.center,
-                                      children: seatModel.seatRows[index].seats
-                                          .map(
-                                            (value) => Seat(
-                                                seatModel.seatRows[index].row +
-                                                    value.number.toString(),
-                                                index,
-                                                value.seatStatus, count),
-                                          )
-                                          .toList(),
-                                    ),
-                                  ],
-                                );
-                              },
-                            ),
-                          ),
-                        ],
+                seatModel == null
+                    ? Center(
+                  child: CircularProgressIndicator(),
+                )
+                    : SingleChildScrollView(
+                  scrollDirection: Axis.horizontal,
+                  padding: EdgeInsets.only(top: 60),
+                  child: Column(
+                    children: <Widget>[
+                      Container(
+                        height: MediaQuery.of(context).size.height / 2,
+                        width: MediaQuery.of(context).size.width,
+                        child: ListView.builder(
+                          scrollDirection: Axis.vertical,
+                          itemCount: seatModel.seatRows.length,
+                          itemBuilder: (context, index) {
+                            return Column(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: <Widget>[
+                                Wrap(
+                                  runSpacing: 10.0,
+                                  spacing: 10.0,
+                                  crossAxisAlignment:
+                                  WrapCrossAlignment.center,
+                                  children: seatModel.seatRows[index].seats
+                                      .map(
+                                        (value) => Seat(
+                                        seatModel.seatRows[index].row +
+                                            value.number.toString(),
+                                        index,
+                                        value.seatStatus, count),
+                                  )
+                                      .toList(),
+                                ),
+                              ],
+                            );
+                          },
+                        ),
                       ),
-                    ),
-              Container(
-                padding: EdgeInsets.only(top: 30),
-                alignment: Alignment.bottomCenter,
-                //color: Colors.amberAccent,
-                child: Column(
-                  children: <Widget>[
-                    Container(
-                      child: Text(
-                        "Tong tien: 150000",
-                        style: TextStyle(
-                            fontSize: 20, fontWeight: FontWeight.bold),
-                      ),
-                    ),
-                    RaisedButton(
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10),
-                        side: BorderSide(color: Colors.blue),
-                      ),
-                      child: Text("Thanh toan"),
-                      color: Colors.blue,
-                      onPressed: () {
-                        print("Thanh toan...");
-                      },
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
-              ),
-            ],
+                new calTotalPrice(),
+              ],
+            ),
           ),
         ),
+      ),
+    );
+  }
+}
+
+class calTotalPrice extends StatelessWidget {
+  const calTotalPrice({
+    Key key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    Counter counter = Provider.of<Counter>(context);
+    return Container(
+      padding: EdgeInsets.only(top: 30),
+      alignment: Alignment.bottomCenter,
+      //color: Colors.amberAccent,
+      child: Column(
+        children: <Widget>[
+          Container(
+            child: Text(
+              "Tong tien: " + counter.totalPrice.toString(),
+              style: TextStyle(
+                  fontSize: 20, fontWeight: FontWeight.bold),
+            ),
+          ),
+          RaisedButton(
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(10),
+              side: BorderSide(color: Colors.blue),
+            ),
+            child: Text("Thanh toan"),
+            color: Colors.blue,
+            onPressed: () {
+              print("Thanh toan...");
+            },
+          ),
+        ],
       ),
     );
   }
