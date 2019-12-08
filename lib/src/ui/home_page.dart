@@ -23,6 +23,7 @@ class _HomePageState extends State<HomePage> {
               icon: Icon(Icons.account_circle),
               onPressed: () {
                 print("Clicked...");
+                Navigator.pushNamed(context, '/login');
               },
             ),
             title: Text(
@@ -33,8 +34,8 @@ class _HomePageState extends State<HomePage> {
               Container(
                 color: Colors.grey[200],
                 padding: EdgeInsets.only(right: 20),
-                child: Image.network(
-                  "https://lh3.googleusercontent.com/PPy0A3ZJz2gKb9xzTw8FDtuVDKnviZEBU0Rk0M4Lptfw_gH74aBBi3lJ1mWMKeOQXyo",
+                child: Image.asset(
+                  "beta.png",
                   width: 50,
                   height: 30,
                 ),
