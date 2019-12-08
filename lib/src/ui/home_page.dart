@@ -9,7 +9,6 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   TabController _tabController;
-
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -77,6 +76,7 @@ class _HomePageState extends State<HomePage> {
             ),
           ),
           body: Container(
+            color: Colors.grey[200],
             width: double.infinity,
             height: MediaQuery.of(context).size.height,
             child: TabBarView(
