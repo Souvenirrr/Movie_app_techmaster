@@ -21,53 +21,37 @@ class Seat extends StatefulWidget {
 class _SeatState extends State<Seat> {
   var urlSeat = "https://api.myjson.com/bins/c4rmy";
   SeatModel seatModel;
+  bool check = false;
+  Color color;
 
-  _fetchDataSeat() async {
-    var res = await http.get(urlSeat);
-    var decode = jsonDecode(res.body);
-    setState(() {
-      seatModel = SeatModel.fromJson(decode);
-    });
-  }
+//  _fetchDataSeat() async {
+//    var res = await http.get(urlSeat);
+//    var decode = jsonDecode(res.body);
+//    setState(() {
+//      seatModel = SeatModel.fromJson(decode);
+//    });
+//  }
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    _fetchDataSeat();
+    //_fetchDataSeat();
     _setColor();
-  }
-  bool check = false;
-  Color color;
-
-  _setCount(){
-    print(widget.count);
-    if(check){
-      widget.count++;
-    }else {
-      widget.count--;
-    }
-    print("count là: " + widget.count.toString());
   }
 
   _setColor() {
     if (widget.IsChoose) {
       color = Colors.red;
-    } else if (check) {
-      color = Colors.blue;
     } else {
-      color = Colors.white;
+      color = check ? Colors.blue : Colors.white;
     }
   }
 
   @override
   Widget build(BuildContext context) {
     Counter counter = Provider.of<Counter>(context);
-    return seatModel == null
-        ? Center(
-      child: CircularProgressIndicator(),
-    )
-        : Column(
+    return Column(
       children: <Widget>[
         Container(
           //color: Colors.blue,
@@ -81,15 +65,20 @@ class _SeatState extends State<Seat> {
           child: InkWell(
             onTap: () {
               setState(() {
-                if (check) {
-                  counter.decrement();
-                  color = Colors.white;
-                } else {
-                  counter.increment();
-                  color = Colors.blue;
+                //_setColor();
+                if(!widget.IsChoose){
+                  if (check) {
+                    counter.decrement();
+                    color = Colors.white;
+                  } else {
+                    counter.increment();
+                    color = Colors.blue;
+                  }
+                }else{
+                  color = Colors.red;
                 }
                 check = !check;
-                print(counter.count);
+                //print(counter.count);
               });
             },
             child: Text(widget.name_seat),
