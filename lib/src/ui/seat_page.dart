@@ -10,15 +10,21 @@ import 'package:provider/provider.dart';
 class Counter with ChangeNotifier {
   int _count = 0;
   int _totalPrice = 0;
-  int _price = 45000;
+  int _price = 80000;
+  int _myMoney = 150000;
 
   int get count => _count;
+
   int get totalPrice => _totalPrice;
+
+  int get myMoney => _myMoney;
+
   increment() {
     _count++;
     _totalPrice = _count * _price;
     notifyListeners();
   }
+
   decrement() {
     _count--;
     _totalPrice = _count * _price;
@@ -54,7 +60,9 @@ class _SeatPageState extends State<SeatPage> {
     super.initState();
     _fetchDataSeat();
   }
-  int count  = 0;
+
+  int count = 0;
+
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider<Counter>(
@@ -74,58 +82,62 @@ class _SeatPageState extends State<SeatPage> {
               children: <Widget>[
                 Container(
                   alignment: Alignment.topCenter,
-                  margin: EdgeInsets.only(top: 20.0),
+                  margin: EdgeInsets.only(top: 20.0, left: 30, right: 30),
                   padding: EdgeInsets.all(15.0),
                   decoration: BoxDecoration(
-                    color: Colors.orange,
+                    color: Colors.grey,
                     border: Border.all(color: Colors.black),
                     borderRadius: BorderRadius.circular(10),
                   ),
-                  child: Text("Screen"),
+                  child: Text("Screen", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18, color: Colors.white),),
                 ),
                 seatModel == null
                     ? Center(
-                  child: CircularProgressIndicator(),
-                )
+                        child: CircularProgressIndicator(),
+                      )
                     : SingleChildScrollView(
-                  scrollDirection: Axis.horizontal,
-                  padding: EdgeInsets.only(top: 60),
-                  child: Column(
-                    children: <Widget>[
-                      Container(
-                        height: MediaQuery.of(context).size.height / 2,
-                        width: MediaQuery.of(context).size.width,
-                        child: ListView.builder(
-                          scrollDirection: Axis.vertical,
-                          itemCount: seatModel.seatRows.length,
-                          itemBuilder: (context, index) {
-                            return Column(
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: <Widget>[
-                                Wrap(
-                                  runSpacing: 10.0,
-                                  spacing: 10.0,
-                                  crossAxisAlignment:
-                                  WrapCrossAlignment.center,
-                                  children: seatModel.seatRows[index].seats
-                                      .map(
-                                        (value) => Seat(
-                                        seatModel.seatRows[index].row +
-                                            value.number.toString(),
-                                        index,
-                                        value.seatStatus, count),
-                                  )
-                                      .toList(),
-                                ),
-                              ],
-                            );
-                          },
+                        scrollDirection: Axis.horizontal,
+                        padding: EdgeInsets.only(top: 60),
+                        child: Column(
+                          children: <Widget>[
+                            Container(
+                              height: MediaQuery.of(context).size.height / 2,
+                              width: MediaQuery.of(context).size.width,
+                              child: ListView.builder(
+                                scrollDirection: Axis.vertical,
+                                itemCount: seatModel.seatRows.length,
+                                itemBuilder: (context, index) {
+                                  return Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: <Widget>[
+                                      Wrap(
+                                        runSpacing: 10.0,
+                                        spacing: 10.0,
+                                        crossAxisAlignment:
+                                            WrapCrossAlignment.center,
+                                        children: seatModel
+                                            .seatRows[index].seats
+                                            .map(
+                                              (value) => Seat(
+                                                  seatModel
+                                                          .seatRows[index].row +
+                                                      value.number.toString(),
+                                                  index,
+                                                  value.seatStatus,
+                                                  count),
+                                            )
+                                            .toList(),
+                                      ),
+                                    ],
+                                  );
+                                },
+                              ),
+                            ),
+                          ],
                         ),
                       ),
-                    ],
-                  ),
-                ),
                 new calTotalPrice(),
               ],
             ),
@@ -153,8 +165,7 @@ class calTotalPrice extends StatelessWidget {
           Container(
             child: Text(
               "Tong tien: " + counter.totalPrice.toString(),
-              style: TextStyle(
-                  fontSize: 20, fontWeight: FontWeight.bold),
+              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
             ),
           ),
           RaisedButton(
@@ -165,7 +176,43 @@ class calTotalPrice extends StatelessWidget {
             child: Text("Thanh toan"),
             color: Colors.blue,
             onPressed: () {
-              print("Thanh toan...");
+              if (counter.myMoney >= counter._totalPrice) {
+                showDialog(
+                  context: context,
+                  builder: (BuildContext context) {
+                    return AlertDialog(
+                      title: Text("Thông báo"),
+                      content: Text("Thanh toán thành công"),
+                      actions: <Widget>[
+                        FlatButton(
+                          child: Text("Close"),
+                          onPressed: () {
+                            Navigator.pushNamed(context, '/');
+                          },
+                        ),
+                      ],
+                    );
+                  },
+                );
+              } else {
+                showDialog(
+                  context: context,
+                  builder: (BuildContext context) {
+                    return AlertDialog(
+                      title: Text("Thông báo"),
+                      content: Text("Thanh toán không thành công"),
+                      actions: <Widget>[
+                        FlatButton(
+                          child: Text("Close"),
+                          onPressed: () {
+                            Navigator.of(context).pop();
+                          },
+                        ),
+                      ],
+                    );
+                  },
+                );
+              }
             },
           ),
         ],
