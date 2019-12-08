@@ -78,74 +78,72 @@ class _BookingPageState extends State<BookingPage> {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      home: Scaffold(
-        backgroundColor: Colors.grey[300],
-        appBar: AppBar(
-          title: movie == null
-              ? Center(
-                  child: Loading(),
-                )
-              : Text(movie.data[widget.itemIndex].movieName),
-        ),
-        body: SingleChildScrollView(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              TableCalendar(
-                events: _events,
-                calendarController: _calendarController,
-                initialCalendarFormat: CalendarFormat.week,
-                startDay: value,
-                startingDayOfWeek: StartingDayOfWeek.tuesday,
-                calendarStyle: CalendarStyle(
-                    canEventMarkersOverflow: true,
-                    selectedColor: Theme.of(context).primaryColor,
-                    todayStyle: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 18.0,
-                        color: Colors.white)),
-                headerStyle: HeaderStyle(
-                  centerHeaderTitle: true,
-                  formatButtonDecoration: BoxDecoration(
-                    color: Colors.blueAccent[200],
-                    borderRadius: BorderRadius.circular(20.0),
-                  ),
-                  formatButtonTextStyle: TextStyle(color: Colors.white),
-                  formatButtonShowsNext: false,
+    return Scaffold(
+      backgroundColor: Colors.grey[300],
+      appBar: AppBar(
+        title: movie == null
+            ? Center(
+                child: Loading(),
+              )
+            : Text(movie.data[widget.itemIndex].movieName),
+        centerTitle: true,
+      ),
+      body: SingleChildScrollView(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            TableCalendar(
+              events: _events,
+              calendarController: _calendarController,
+              initialCalendarFormat: CalendarFormat.week,
+              startDay: value,
+              startingDayOfWeek: StartingDayOfWeek.tuesday,
+              calendarStyle: CalendarStyle(
+                  canEventMarkersOverflow: true,
+                  selectedColor: Theme.of(context).primaryColor,
+                  todayStyle: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 18.0,
+                      color: Colors.white)),
+              headerStyle: HeaderStyle(
+                centerHeaderTitle: true,
+                formatButtonDecoration: BoxDecoration(
+                  color: Colors.blueAccent[200],
+                  borderRadius: BorderRadius.circular(20.0),
                 ),
-                onDaySelected: (date, events) {
-                  print(date.day);
-                  print(events);
-                  //events = _cinema;
-
-                },
-                builders: CalendarBuilders(
-                  selectedDayBuilder: (context, date, events) => Container(
-                      margin: const EdgeInsets.all(4.0),
-                      alignment: Alignment.center,
-                      decoration: BoxDecoration(
-                          color: Theme.of(context).primaryColor,
-                          borderRadius: BorderRadius.circular(10.0)),
-                      child: Text(
-                        date.day.toString(),
-                        style: TextStyle(color: Colors.white),
-                      )),
-                  todayDayBuilder: (context, date, events) => Container(
-                      margin: const EdgeInsets.all(4.0),
-                      alignment: Alignment.center,
-                      decoration: BoxDecoration(
-                          color: Colors.yellow[400],
-                          borderRadius: BorderRadius.circular(10.0)),
-                      child: Text(
-                        date.day.toString(),
-                        style: TextStyle(color: Colors.white),
-                      )),
-                ),
+                formatButtonTextStyle: TextStyle(color: Colors.white),
+                formatButtonShowsNext: false,
               ),
-              event(),
-            ],
-          ),
+              onDaySelected: (date, events) {
+                print(date.day);
+                print(events);
+                //events = _cinema;
+              },
+              builders: CalendarBuilders(
+                selectedDayBuilder: (context, date, events) => Container(
+                    margin: const EdgeInsets.all(4.0),
+                    alignment: Alignment.center,
+                    decoration: BoxDecoration(
+                        color: Theme.of(context).primaryColor,
+                        borderRadius: BorderRadius.circular(10.0)),
+                    child: Text(
+                      date.day.toString(),
+                      style: TextStyle(color: Colors.white),
+                    )),
+                todayDayBuilder: (context, date, events) => Container(
+                    margin: const EdgeInsets.all(4.0),
+                    alignment: Alignment.center,
+                    decoration: BoxDecoration(
+                        color: Colors.yellow[400],
+                        borderRadius: BorderRadius.circular(10.0)),
+                    child: Text(
+                      date.day.toString(),
+                      style: TextStyle(color: Colors.white),
+                    )),
+              ),
+            ),
+            event(),
+          ],
         ),
       ),
     );
@@ -200,7 +198,8 @@ class _BookingPageState extends State<BookingPage> {
                                                   context,
                                                   MaterialPageRoute(
                                                       builder: (context) =>
-                                                          SeatPage(widget.itemIndex)));
+                                                          SeatPage(widget
+                                                              .itemIndex)));
                                             },
                                           ))
                                       .toList(),
