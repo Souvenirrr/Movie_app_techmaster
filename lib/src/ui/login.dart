@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:movie_app/src/model/loginModel.dart';
+import 'package:movie_app/src/ui/register.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:validators/validators.dart' as validator;
 import 'package:http/http.dart' as http;
@@ -10,40 +11,46 @@ class Login extends StatefulWidget {
 
   @override
   _LoginState createState() => _LoginState();
-
-  Login();
 }
 
 class _LoginState extends State<Login> {
-  String phone;
+  String username;
   String password;
   final formKey = GlobalKey<FormState>();
+  LoginModel loginModel;
 
 
 
-  void _createPost() async {
+  Future<void> _createPost() async {
     final response = await http.post(
-      'http://45.118.145.149:8100/login',
+      'https://dgvapi.herokuapp.com/user/login',
       body: jsonEncode(
         {
-          'phone' : '0916512987',
-          'password' : '123456',
+          'username' : '$username',
+          'password' : '$password',
         },
       ),
-      headers: {'Content-Type': "application/json"},
+      headers: {"Content-Type": "application/json"},
     );
-    final LoginModel loginModel = LoginModel.fromJson(jsonDecode(response.body));
+    setState(() {
+      loginModel = LoginModel.fromJson(jsonDecode(response.body));
+    });
 
     //_getToken();
-    _saveToken(loginModel.data.token);
+    await _saveToken(loginModel.data);
+    //print(loginModel.data);
   }
 
-  void _saveToken(String token) async{
+  Future<void> _saveToken(String token) async{
     final sharedPreferences = await SharedPreferences.getInstance();
     sharedPreferences.setString('token', token);
   }
 
-
+  Future<String> _getToken() async{
+    final sharedPreferences = await SharedPreferences.getInstance();
+    final token1 = sharedPreferences.getString('token') ?? "";
+    return token1;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -52,7 +59,8 @@ class _LoginState extends State<Login> {
         title: Text("Login"),
         centerTitle: true,
       ),
-      body: SingleChildScrollView(
+      body: //loginModel == null ? Center(child: CircularProgressIndicator(),) :
+      SingleChildScrollView(
         child: Center(
           child: Form(
             key: formKey,
@@ -67,19 +75,19 @@ class _LoginState extends State<Login> {
                   padding: const EdgeInsets.all(8.0),
                   child: TextFormField(
                     decoration: InputDecoration(
-                      hintText: "Phone",
+                      hintText: "Username",
                       border: InputBorder.none,
                       fillColor: Colors.grey[300],
                       filled: true,
                     ),
                     validator: (String value) {
-                      if (value.length != 10 || !validator.isNumeric(value)) {
-                        return "Phone khong hop le";
+                      if (value.isEmpty) {
+                        return "Username khong hop le";
                       }
                       return null;
                     },
                     onSaved: (String value) {
-                      phone = value;
+                      username = value;
                     },
                   ),
                 ),
@@ -106,14 +114,22 @@ class _LoginState extends State<Login> {
                 ),
                 RaisedButton(
                   color: Colors.blue,
-                  onPressed: () {
+                  onPressed: () async {
                     if (formKey.currentState.validate()) {
                       formKey.currentState.save();
                       //print("Email la: " + phone.toString());
                       //print("Password la: " + password.toString());
                       //_createPost();
-                      _createPost();
-                      //print(_getToken());
+                      await _createPost();
+                      //if(loginModel.status == "success"){
+                        Navigator.pushNamed(context, '/');
+                        print(_getToken());
+//                      }else{
+//                        AlertDialog(
+//                          title: Text("Thong bao"),
+//
+//                        );
+//                      }
                     }
                   },
                   child: Text(
@@ -139,7 +155,7 @@ class _LoginState extends State<Login> {
                       GestureDetector(
                         onTap: () {
                           print("Dang ky");
-                          Navigator.pushNamed(context, '/register');
+                          Navigator.push(context, MaterialPageRoute(builder: (context) => Register()));
                         },
                         child: Text(
                           "Đăng ký",
