@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:movie_app/src/ui/home_page.dart';
 import 'package:movie_app/src/ui/login.dart';
+import 'package:movie_app/src/ui/profile.dart';
 import 'package:movie_app/src/ui/register.dart';
 
 class MyApp extends StatelessWidget {
@@ -14,6 +15,7 @@ class MyApp extends StatelessWidget {
         '/' : (BuildContext context) => HomePage(),
         '/login' : (BuildContext context) => Login(),
         '/register' : (BuildContext context) => Register(),
+        '/profile' : (BuildContext context) => ProfilePage(),
       },
     );
   }
