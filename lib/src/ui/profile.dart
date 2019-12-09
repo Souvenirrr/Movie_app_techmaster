@@ -1,4 +1,9 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:movie_app/src/model/infoModel.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:http/http.dart' as http;
 
 class ProfilePage extends StatefulWidget {
   @override
@@ -6,12 +11,50 @@ class ProfilePage extends StatefulWidget {
 }
 
 class _ProfilePageState extends State<ProfilePage> {
+  InfoModel infoModel;
+  var token;
+  void _removeToken() async{
+    final prefs = await SharedPreferences.getInstance();
+    prefs.remove('token');
+  }
+
+  Future<String> _getToken() async{
+    final sharedPreferences = await SharedPreferences.getInstance();
+    final token1 = sharedPreferences.getString('token') ?? "";
+    return token1;
+  }
+
+
+
+  void _createPost() async {
+    token = await _getToken();
+    //print(token);
+    final response = await http.get(
+      'https://dgvapi.herokuapp.com/user/info',
+      headers: {'Authorization': 'Bearer $token'},
+    );
+    print("Bearer $token");
+
+    setState(() {
+      infoModel = InfoModel.fromJson(jsonDecode(response.body));
+    });
+    //_getToken();
+    //_saveToken(loginModel.data);
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    _createPost();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        centerTitle: false,
-        backgroundColor: Colors.brown,
+        centerTitle: true,
+        //backgroundColor: Colors.brown,
         title: Text(
           "Hồ sơ",
           style: TextStyle(fontSize: 20),
@@ -19,27 +62,23 @@ class _ProfilePageState extends State<ProfilePage> {
         actions: <Widget>[
           Padding(
             padding: EdgeInsets.all(15),
-            child: Text("Cập nhật",
-                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-                textAlign: TextAlign.center),
+            child: GestureDetector(
+              onTap: (){
+                Navigator.pushNamed(context, '/');
+                _removeToken();
+              },
+              child: Text("Cập nhật",
+                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                  textAlign: TextAlign.center),
+            ),
           ),
         ],
       ),
-      drawer: Drawer(
-        child: ListView(
-          children: <Widget>[
-            ListTile(
-              title: Text("Ttem 1"),
-              trailing: Icon(Icons.arrow_forward),
-            ),
-            ListTile(
-              title: Text("Item 2"),
-              trailing: Icon(Icons.arrow_forward),
-            ),
-          ],
-        ),
-      ),
-      body: Container(
+      body:
+      //infoModel == null ? Center(child: CircularProgressIndicator(),) :
+      infoModel == null ? Center(child: CircularProgressIndicator(),) :
+      Container(
+        color: Colors.grey[200],
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -50,7 +89,7 @@ class _ProfilePageState extends State<ProfilePage> {
                 //backgroundColor: Colors.red,
                 radius: 90,
                 backgroundImage: NetworkImage(
-                    'http://cdn.shopify.com/s/files/1/0008/1274/4765/products/Shattered-Avengers-Logo_01_Top-View.png?v=1558441924'),
+                    infoModel.data.userAvatar),
               ),
             ),
             Container(
@@ -70,7 +109,7 @@ class _ProfilePageState extends State<ProfilePage> {
             ),
             Container(
               decoration: BoxDecoration(
-                color: Colors.white,
+                color: Colors.grey[200],
                 borderRadius: BorderRadius.circular(5),
               ),
               child: Column(
@@ -78,10 +117,27 @@ class _ProfilePageState extends State<ProfilePage> {
                   ListTile(
                     contentPadding: EdgeInsets.only(left: 40, right: 50),
                     title: Text(
-                      "Họ và tên",
+                      "Tên đầy đủ",
                       style: TextStyle(fontWeight: FontWeight.bold),
                     ),
-                    subtitle: Text("Trần Công Tùng"),
+                    subtitle: Text(infoModel.data.userFullname),
+                  ),
+                  ListTile(
+                    contentPadding: EdgeInsets.only(left: 40, right: 50),
+                    title: Text(
+                      "Ngày sinh",
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                    ),
+                    subtitle: Text(
+                        infoModel.data.userBirthday),
+                  ),
+                  ListTile(
+                    contentPadding: EdgeInsets.only(left: 40, right: 50),
+                    title: Text(
+                      "Giới tính",
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                    ),
+                    subtitle: infoModel.data.userGender == 1 ? Text("Nam") : Text("Nữ"),
                   ),
                   ListTile(
                     contentPadding: EdgeInsets.only(left: 40, right: 50),
@@ -89,7 +145,7 @@ class _ProfilePageState extends State<ProfilePage> {
                       "Số điện thoại",
                       style: TextStyle(fontWeight: FontWeight.bold),
                     ),
-                    subtitle: Text("0384386405"),
+                    subtitle: Text(infoModel.data.userPhone),
                   ),
                   ListTile(
                     contentPadding: EdgeInsets.only(left: 40, right: 50),
@@ -98,8 +154,29 @@ class _ProfilePageState extends State<ProfilePage> {
                       style: TextStyle(fontWeight: FontWeight.bold),
                     ),
                     subtitle: Text(
-                        "14 ngõ 6 Phạm Tuấn Tài - Quận Tân Phú - Thành phố Hồ Chí Minh"),
-                  )
+                        infoModel.data.userCity),
+                  ),
+                  ListTile(
+                    contentPadding: EdgeInsets.only(left: 40, right: 50),
+                    title: Text(
+                      "Email",
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                    ),
+                    subtitle: Text(
+                        infoModel.data.userEmail),
+                  ),
+                  Container(
+                    color: Colors.grey[200],
+                    width: MediaQuery.of(context).size.width - 200,
+                    child: RaisedButton(
+                      child: Text("Logout", style: TextStyle(color: Colors.white),),
+                      onPressed: (){
+                        _removeToken();
+                        Navigator.pushNamed(context, '/');
+                      },
+                      color: Colors.blue,
+                    ),
+                  ),
                 ],
               ),
             ),
