@@ -1,7 +1,11 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:movie_app/src/model/infoModel.dart';
 import 'package:movie_app/src/ui/widget/list_grid_view.dart';
 import 'package:movie_app/src/ui/widget/slide_show.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:http/http.dart' as http;
 
 class HomePage extends StatefulWidget {
   @override
@@ -9,40 +13,72 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-
-  Future<String> _getToken() async{
+  InfoModel infoModel;
+  var token;
+  _getToken() async{
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     final token1 = sharedPreferences.getString('token') ?? "";
     return token1;
   }
 
-  TabController _tabController;
+  void _createPost() async {
+    token = await _getToken();
+    //print(token);
+    final response = await http.get(
+      'https://dgvapi.herokuapp.com/user/info',
+      headers: {'Authorization': 'Bearer $token'},
+    );
+    print("Bearer $token");
+
+    setState(() {
+      infoModel = InfoModel.fromJson(jsonDecode(response.body));
+    });
+    //_getToken();
+    //_saveToken(loginModel.data);
+  }
+
   @override
-  Widget build(BuildContext context) {
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    _createPost();
+  }
+
+  TabController _tabController;
+  bool check = false;
+
+  @override
+  Widget build(BuildContext context){
+
     return MaterialApp(
       home: DefaultTabController(
         length: 3,
-        child: Scaffold(
+        child:
+        Scaffold(
           appBar: AppBar(
             backgroundColor: Colors.grey[200],
             centerTitle: false,
             leading: IconButton(
               color: Colors.blue,
               icon: Icon(Icons.account_circle),
-              onPressed: () {
-                print("Clicked...");
+              onPressed: () async {
+                //print("Clicked...");
                 Future f = _getToken();
                 f.then((data) {
                   if(data != ""){
+                    check = true;
                     Navigator.pushNamed(context , '/profile');
+                    //print("f: " + f.toString());
+                  }else{
+                    check = false;
+                    Navigator.pushNamed(context, '/login');
+                    //print("f" + f.toString());
                   }
                 });
               },
             ),
-            title: Text(
-              "Nguyen Van A",
-              style: TextStyle(color: Colors.blue),
-            ),
+            title: check == true ? Text(infoModel.data.userFullname, style: TextStyle(color: Colors.blue),) :
+            Text("Guest",style: TextStyle(color: Colors.blue),),
             actions: <Widget>[
               Container(
                 color: Colors.grey[200],
