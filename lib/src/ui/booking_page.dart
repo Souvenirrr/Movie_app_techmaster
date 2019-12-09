@@ -3,8 +3,10 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:movie_app/src/model/movie.dart';
 import 'package:movie_app/src/model/schedule.dart';
+import 'package:movie_app/src/ui/login.dart';
 import 'package:movie_app/src/ui/seat_page.dart';
 import 'package:movie_app/src/ui/widget/loading.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:http/http.dart' as http;
 
@@ -58,6 +60,12 @@ class _BookingPageState extends State<BookingPage> {
   void dispose() {
     _calendarController.dispose();
     super.dispose();
+  }
+
+  _getToken() async {
+    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+    final token1 = sharedPreferences.getString('token') ?? "";
+    return token1;
   }
 
   DateTime value = DateTime.now();
@@ -120,11 +128,10 @@ class _BookingPageState extends State<BookingPage> {
                     margin: const EdgeInsets.all(4.0),
                     alignment: Alignment.center,
                     decoration: BoxDecoration(
-                        color: Colors.yellow[400],
                         borderRadius: BorderRadius.circular(10.0)),
                     child: Text(
                       date.day.toString(),
-                      style: TextStyle(color: Colors.white),
+                      style: TextStyle(color: Colors.black),
                     )),
               ),
             ),
@@ -179,13 +186,25 @@ class _BookingPageState extends State<BookingPage> {
                                                 side: BorderSide(
                                                     color: Colors.white)),
                                             child: Text(value.scheduleStart),
-                                            onPressed: () {
-                                              Navigator.push(
-                                                  context,
-                                                  MaterialPageRoute(
-                                                      builder: (context) =>
-                                                          SeatPage(widget
-                                                              .itemIndex)));
+                                            onPressed: () async {
+                                              Future f = _getToken();
+                                              f.then((data) {
+                                                if (data != "") {
+                                                  Navigator.push(
+                                                      context,
+                                                      MaterialPageRoute(
+                                                          builder: (context) =>
+                                                              SeatPage(widget
+                                                                  .itemIndex)));
+                                                } else {
+                                                  Navigator.push(
+                                                      context,
+                                                      MaterialPageRoute(
+                                                          builder: (context) =>
+                                                              Login()));
+                                                  //print("f" + f.toString());
+                                                }
+                                              });
                                             },
                                           ))
                                       .toList(),
