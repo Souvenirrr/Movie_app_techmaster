@@ -11,7 +11,7 @@ class Counter with ChangeNotifier {
   int _count = 0;
   int _totalPrice = 0;
   int _price = 80000;
-  int _myMoney = 150000;
+  int _myMoney = 500000;
 
   int get count => _count;
 
@@ -42,7 +42,7 @@ class SeatPage extends StatefulWidget {
 }
 
 class _SeatPageState extends State<SeatPage> {
-  var urlSeat = "https://api.myjson.com/bins/c4rmy";
+  var urlSeat = "https://dgvapi.herokuapp.com/seat/1/seat-empty";
   SeatModel seatModel;
   bool check = false;
 
@@ -105,7 +105,7 @@ class _SeatPageState extends State<SeatPage> {
                               width: MediaQuery.of(context).size.width,
                               child: ListView.builder(
                                 scrollDirection: Axis.vertical,
-                                itemCount: seatModel.seatRows.length,
+                                itemCount: seatModel.data.length,
                                 itemBuilder: (context, index) {
                                   return Column(
                                     crossAxisAlignment:
@@ -118,11 +118,11 @@ class _SeatPageState extends State<SeatPage> {
                                         crossAxisAlignment:
                                             WrapCrossAlignment.center,
                                         children: seatModel
-                                            .seatRows[index].seats
+                                            .data[index].seats
                                             .map(
                                               (value) => Seat(
                                                   seatModel
-                                                          .seatRows[index].row +
+                                                          .data[index].row +
                                                       value.number.toString(),
                                                   index,
                                                   value.seatStatus,
@@ -163,6 +163,10 @@ class calTotalPrice extends StatelessWidget {
       child: Column(
         children: <Widget>[
           Container(
+            child: Text("Tong so tien cua ban: " + Counter().myMoney.toString(),
+              style: TextStyle(fontSize: 20,fontWeight: FontWeight.bold),),
+          ),
+          Container(
             child: Text(
               "Tong tien: " + counter.totalPrice.toString(),
               style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
@@ -176,42 +180,44 @@ class calTotalPrice extends StatelessWidget {
             child: Text("Thanh toan"),
             color: Colors.blue,
             onPressed: () {
-              if (counter.myMoney >= counter._totalPrice) {
-                showDialog(
-                  context: context,
-                  builder: (BuildContext context) {
-                    return AlertDialog(
-                      title: Text("Thông báo"),
-                      content: Text("Thanh toán thành công"),
-                      actions: <Widget>[
-                        FlatButton(
-                          child: Text("Close"),
-                          onPressed: () {
-                            Navigator.pushNamed(context, '/');
-                          },
-                        ),
-                      ],
-                    );
-                  },
-                );
-              } else {
-                showDialog(
-                  context: context,
-                  builder: (BuildContext context) {
-                    return AlertDialog(
-                      title: Text("Thông báo"),
-                      content: Text("Thanh toán không thành công"),
-                      actions: <Widget>[
-                        FlatButton(
-                          child: Text("Close"),
-                          onPressed: () {
-                            Navigator.of(context).pop();
-                          },
-                        ),
-                      ],
-                    );
-                  },
-                );
+              if(counter._totalPrice != 0) {
+                if (counter.myMoney >= counter._totalPrice) {
+                  showDialog(
+                    context: context,
+                    builder: (BuildContext context) {
+                      return AlertDialog(
+                        title: Text("Thông báo"),
+                        content: Text("Thanh toán thành công"),
+                        actions: <Widget>[
+                          FlatButton(
+                            child: Text("Close"),
+                            onPressed: () {
+                              Navigator.pushNamed(context, '/');
+                            },
+                          ),
+                        ],
+                      );
+                    },
+                  );
+                } else {
+                  showDialog(
+                    context: context,
+                    builder: (BuildContext context) {
+                      return AlertDialog(
+                        title: Text("Thông báo"),
+                        content: Text("Thanh toán không thành công"),
+                        actions: <Widget>[
+                          FlatButton(
+                            child: Text("Close"),
+                            onPressed: () {
+                              Navigator.of(context).pop();
+                            },
+                          ),
+                        ],
+                      );
+                    },
+                  );
+                }
               }
             },
           ),
