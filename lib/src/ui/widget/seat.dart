@@ -1,15 +1,11 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
-import 'package:movie_app/src/model/seatmodel.dart';
-import 'package:http/http.dart' as http;
 import 'package:provider/provider.dart';
 import 'package:movie_app/src/ui/seat_page.dart';
 
 class Seat extends StatefulWidget {
   String name_seat;
   int index;
-  bool IsChoose;
+  dynamic IsChoose;
   int count;
 
   @override
@@ -19,18 +15,10 @@ class Seat extends StatefulWidget {
 }
 
 class _SeatState extends State<Seat> {
-  var urlSeat = "https://api.myjson.com/bins/c4rmy";
-  SeatModel seatModel;
   bool check = false;
   Color color;
 
-//  _fetchDataSeat() async {
-//    var res = await http.get(urlSeat);
-//    var decode = jsonDecode(res.body);
-//    setState(() {
-//      seatModel = SeatModel.fromJson(decode);
-//    });
-//  }
+
 
   @override
   void initState() {
@@ -41,7 +29,7 @@ class _SeatState extends State<Seat> {
   }
 
   _setColor() {
-    if (widget.IsChoose) {
+    if (widget.IsChoose == true) {
       color = Colors.red;
     } else {
       color = check ? Colors.blue : Colors.white;
@@ -66,7 +54,7 @@ class _SeatState extends State<Seat> {
             onTap: () {
               setState(() {
                 //_setColor();
-                if(!widget.IsChoose){
+                if(widget.IsChoose == null){
                   if (check) {
                     counter.decrement();
                     color = Colors.white;
