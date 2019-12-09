@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:movie_app/src/ui/widget/list_grid_view.dart';
 import 'package:movie_app/src/ui/widget/slide_show.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -8,6 +9,13 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+
+  Future<String> _getToken() async{
+    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+    final token1 = sharedPreferences.getString('token') ?? "";
+    return token1;
+  }
+
   TabController _tabController;
   @override
   Widget build(BuildContext context) {
@@ -23,7 +31,12 @@ class _HomePageState extends State<HomePage> {
               icon: Icon(Icons.account_circle),
               onPressed: () {
                 print("Clicked...");
-                Navigator.pushNamed(context, '/login');
+                Future f = _getToken();
+                f.then((data) {
+                  if(data != ""){
+                    Navigator.pushNamed(context , '/profile');
+                  }
+                });
               },
             ),
             title: Text(
@@ -113,7 +126,7 @@ class _HomePageState extends State<HomePage> {
                 ),
                 Container(
                   child: Center(
-                    child: SlideShow("https://dgvapi.herokuapp.com/movies"),
+                    child: SlideShow("https://dgvapi.herokuapp.com/movies/future"),
                   ),
                 ),
               ],

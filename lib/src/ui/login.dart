@@ -19,13 +19,15 @@ class _LoginState extends State<Login> {
   String password;
   final formKey = GlobalKey<FormState>();
 
+
+
   void _createPost() async {
     final response = await http.post(
       'http://45.118.145.149:8100/login',
       body: jsonEncode(
         {
-          'phone' : '$phone',
-          'password' : '$password',
+          'phone' : '0916512987',
+          'password' : '123456',
         },
       ),
       headers: {'Content-Type': "application/json"},
@@ -41,11 +43,7 @@ class _LoginState extends State<Login> {
     sharedPreferences.setString('token', token);
   }
 
-  Future<String> _getToken() async{
-    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
-    final token1 = sharedPreferences.getString('token') ?? "";
-    return token1;
-  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -115,7 +113,7 @@ class _LoginState extends State<Login> {
                       //print("Password la: " + password.toString());
                       //_createPost();
                       _createPost();
-                      print(_getToken());
+                      //print(_getToken());
                     }
                   },
                   child: Text(

@@ -19,12 +19,6 @@ class BookingPage extends StatefulWidget {
 
 class _BookingPageState extends State<BookingPage> {
   CalendarController _calendarController;
-  List<String> _cinema = [
-    'Rap Thanh Tri',
-    'Rap Thai Nguyen',
-    'Rap Long Bien',
-  ];
-
   List<dynamic> _selectedEvents;
   Map<DateTime, List> _events;
   Movie movie;
@@ -57,14 +51,6 @@ class _BookingPageState extends State<BookingPage> {
     _fetchDataMovie();
     _fetchDataSchedule();
     _calendarController = CalendarController();
-
-    //event();
-//    _events = {
-//      DateTime(2019,12,09) : [schedule.data[widget.itemIndex].cinemaData.map((value) {
-//        value.scheduleStart.toString();
-//      })],
-//      DateTime(2019,12,11) : [event()],
-//    };
     _selectedEvents = [];
   }
 

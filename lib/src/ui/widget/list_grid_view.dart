@@ -34,11 +34,6 @@ class _GridViewPageState extends State<GridViewPage> {
       movie = Movie.fromJson(decode);
       //print(movie.toJson());
     });
-    Future.delayed(Duration(seconds: 2), () {
-      _fetchDataMovie();
-      //Navigator.push(context, MaterialPageRoute(builder: (context) => LoadContent()));
-
-    });
   }
 
   @override
@@ -59,7 +54,7 @@ class _GridViewPageState extends State<GridViewPage> {
             onTap: (){
               setState(() {
                 print("Image['" + index.toString() + "']");
-                Navigator.push(context, MaterialPageRoute(builder: (context) => DetailsMovie(index)));
+                Navigator.push(context, MaterialPageRoute(builder: (context) => DetailsMovie(index, widget.urlMovie)));
               });
             },
             child: Container(

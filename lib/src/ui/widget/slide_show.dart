@@ -5,7 +5,6 @@ import 'package:movie_app/src/model/movie.dart';
 import 'package:movie_app/src/ui/details_movie.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter_swiper/flutter_swiper.dart';
-import 'package:movie_app/src/ui/widget/load_content.dart';
 import 'package:movie_app/src/ui/widget/loading.dart';
 
 class SlideShow extends StatefulWidget {
@@ -37,10 +36,6 @@ class _SlideShowState extends State<SlideShow> {
       movie = Movie.fromJson(decode);
       //print(movie.toJson());
     });
-    Future.delayed(Duration(seconds: 2), () {
-      //Navigator.push(context, MaterialPageRoute(builder: (context) => LoadContent()));
-      _fetchDataMovie();
-    });
   }
 
   @override
@@ -57,7 +52,7 @@ class _SlideShowState extends State<SlideShow> {
             },
             onTap: (int index) {
               print("Image['" + index.toString() + "']");
-              Navigator.push(context, MaterialPageRoute(builder: (context) => DetailsMovie(index)));
+              Navigator.push(context, MaterialPageRoute(builder: (context) => DetailsMovie(index, widget.urlMovie)));
             },
             pagination: new SwiperPagination(),
             control: new SwiperControl(),

@@ -10,11 +10,12 @@ import 'package:movie_app/src/ui/widget/loading.dart';
 
 class DetailsMovie extends StatefulWidget {
   final int itemIndex;
+  final String urlDetails;
 
   @override
   _DetailsMovieState createState() => _DetailsMovieState();
 
-  DetailsMovie(this.itemIndex);
+  DetailsMovie(this.itemIndex, this.urlDetails);
 }
 
 class _DetailsMovieState extends State<DetailsMovie> {
@@ -22,7 +23,7 @@ class _DetailsMovieState extends State<DetailsMovie> {
 
   Movie movie;
   List movieList;
-  static var urlMovie = "https://dgvapi.herokuapp.com/movies";
+  //static var urlMovie = "https://dgvapi.herokuapp.com/movies/now";
 
   @override
   void initState() {
@@ -32,15 +33,11 @@ class _DetailsMovieState extends State<DetailsMovie> {
   }
 
   _fetchDataMovie() async {
-    var res = await http.get(urlMovie);
+    var res = await http.get(widget.urlDetails);
     var decode = jsonDecode(utf8.decode(res.bodyBytes));
     setState(() {
       movie = Movie.fromJson(decode);
       //print(movie.toJson());
-    });
-    Future.delayed(Duration(seconds: 2), () {
-      //Navigator.push(context, MaterialPageRoute(builder: (context) => LoadContent()));
-      _fetchDataMovie();
     });
   }
 
