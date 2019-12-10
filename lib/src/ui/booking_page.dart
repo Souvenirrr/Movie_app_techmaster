@@ -75,11 +75,7 @@ class _BookingPageState extends State<BookingPage> {
     return Scaffold(
       backgroundColor: Colors.grey[300],
       appBar: AppBar(
-        title: movie == null
-            ? Center(
-                child: Loading(),
-              )
-            : Text(movie.data[widget.itemIndex].movieName),
+        title: Text("Lịch chiếu phim"),
         centerTitle: true,
       ),
       body: SingleChildScrollView(
