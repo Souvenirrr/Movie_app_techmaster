@@ -25,7 +25,7 @@ class _RegisterState extends State<Register> {
 
   Future<void> postRegister() async {
     final response = await http.post(
-      'https://dgvapi.herokuapp.com/user/login',
+      'https://dgvapi.herokuapp.com/user/register',
       body: jsonEncode({
         "password": "$password",
         "userBirthday": "$birthday",
@@ -92,7 +92,7 @@ class _RegisterState extends State<Register> {
                     ),
                     obscureText: true,
                     validator: (String value) {
-                      if (value.length < 8) {
+                      if (value.length < 5) {
                         return "Password khong hop le";
                       }
                       return null;
@@ -240,9 +240,10 @@ class _RegisterState extends State<Register> {
                 RaisedButton(
                   color: Colors.blue,
                   onPressed: () async {
+                    print("out");
                     if (formRegis.currentState.validate()) {
                       formRegis.currentState.save();
-                      await postRegister();
+                      postRegister();
                       print("success");
                       showDialog(
                         context: context,
@@ -261,26 +262,7 @@ class _RegisterState extends State<Register> {
                           );
                         },
                       );
-                    } else {
-                      print("fail");
-                      showDialog(
-                          context: context,
-                          builder: (context) {
-                            return AlertDialog(
-                              title: Text("Message"),
-                              content: Text("Dang ky khong thanh cong"),
-                              actions: <Widget>[
-                                FlatButton(
-                                  child: Text("Close"),
-                                  onPressed: () {
-                                    Navigator.pop(context);
-                                  },
-                                )
-                              ],
-                            );
-                          });
                     }
-                    print("out");
                   },
                   child: Text(
                     "Registration",

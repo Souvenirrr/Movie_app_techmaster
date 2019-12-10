@@ -89,55 +89,65 @@ class _SeatPageState extends State<SeatPage> {
                     border: Border.all(color: Colors.black),
                     borderRadius: BorderRadius.circular(10),
                   ),
-                  child: Text("Screen", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18, color: Colors.white),),
+                  child: Text("Screen", style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 18,
+                      color: Colors.white),),
                 ),
                 seatModel == null
                     ? Center(
-                        child: CircularProgressIndicator(),
-                      )
+                  child: CircularProgressIndicator(),
+                )
                     : SingleChildScrollView(
-                        scrollDirection: Axis.horizontal,
-                        padding: EdgeInsets.only(top: 60),
-                        child: Column(
-                          children: <Widget>[
-                            Container(
-                              height: MediaQuery.of(context).size.height / 2,
-                              width: MediaQuery.of(context).size.width,
-                              child: ListView.builder(
-                                scrollDirection: Axis.vertical,
-                                itemCount: seatModel.data.length,
-                                itemBuilder: (context, index) {
-                                  return Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.center,
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: <Widget>[
-                                      Wrap(
-                                        runSpacing: 10.0,
-                                        spacing: 10.0,
-                                        crossAxisAlignment:
-                                            WrapCrossAlignment.center,
-                                        children: seatModel
-                                            .data[index].seats
-                                            .map(
-                                              (value) => Seat(
-                                                  seatModel
-                                                          .data[index].row +
-                                                      value.number.toString(),
-                                                  index,
-                                                  value.seatStatus,
-                                                  count),
-                                            )
-                                            .toList(),
-                                      ),
-                                    ],
-                                  );
-                                },
-                              ),
-                            ),
-                          ],
+                  scrollDirection: Axis.horizontal,
+                  padding: EdgeInsets.only(top: 60),
+                  child: Column(
+                    children: <Widget>[
+                      Container(
+                        height: MediaQuery
+                            .of(context)
+                            .size
+                            .height / 2,
+                        width: MediaQuery
+                            .of(context)
+                            .size
+                            .width,
+                        child: ListView.builder(
+                          scrollDirection: Axis.vertical,
+                          itemCount: seatModel.data.length,
+                          itemBuilder: (context, index) {
+                            return Column(
+                              crossAxisAlignment:
+                              CrossAxisAlignment.center,
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: <Widget>[
+                                Wrap(
+                                  runSpacing: 10.0,
+                                  spacing: 10.0,
+                                  crossAxisAlignment:
+                                  WrapCrossAlignment.center,
+                                  children: seatModel
+                                      .data[index].seats
+                                      .map(
+                                        (value) =>
+                                        Seat(
+                                            seatModel
+                                                .data[index].row +
+                                                value.number.toString(),
+                                            index,
+                                            value.seatStatus,
+                                            count),
+                                  )
+                                      .toList(),
+                                ),
+                              ],
+                            );
+                          },
                         ),
                       ),
+                    ],
+                  ),
+                ),
                 new calTotalPrice(),
               ],
             ),
@@ -164,7 +174,7 @@ class calTotalPrice extends StatelessWidget {
         children: <Widget>[
           Container(
             child: Text("Tong so tien cua ban: " + Counter().myMoney.toString(),
-              style: TextStyle(fontSize: 20,fontWeight: FontWeight.bold),),
+              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),),
           ),
           Container(
             child: Text(
@@ -180,45 +190,65 @@ class calTotalPrice extends StatelessWidget {
             child: Text("Thanh toan"),
             color: Colors.blue,
             onPressed: () {
-              if(counter._totalPrice != 0) {
-                if (counter.myMoney >= counter._totalPrice) {
-                  showDialog(
-                    context: context,
-                    builder: (BuildContext context) {
-                      return AlertDialog(
-                        title: Text("Thông báo"),
-                        content: Text("Thanh toán thành công"),
-                        actions: <Widget>[
-                          FlatButton(
-                            child: Text("Close"),
-                            onPressed: () {
-                              Navigator.pushNamed(context, '/');
-                            },
-                          ),
-                        ],
-                      );
-                    },
+              showDialog(context: context,
+                builder: (BuildContext context) {
+                  return AlertDialog(
+                    title: Text("Thông báo"),
+                    content: Text("Bạn có xác nhận thanh toán"),
+                    actions: <Widget>[
+                      FlatButton(
+                        child: Text("OK"),
+                        onPressed: () {
+                          if (counter._totalPrice != 0) {
+                            if (counter.myMoney >= counter._totalPrice) {
+                              showDialog(
+                                context: context,
+                                builder: (BuildContext context) {
+                                  return AlertDialog(
+                                    title: Text("Thông báo"),
+                                    content: Text("Thanh toán thành công"),
+                                    actions: <Widget>[
+                                      FlatButton(
+                                        child: Text("Close"),
+                                        onPressed: () {
+                                          Navigator.pushNamed(context, '/');
+                                        },
+                                      ),
+                                    ],
+                                  );
+                                },
+                              );
+                            } else {
+                              showDialog(
+                                context: context,
+                                builder: (BuildContext context) {
+                                  return AlertDialog(
+                                    title: Text("Thông báo"),
+                                    content: Text("Thanh toán không thành công"),
+                                    actions: <Widget>[
+                                      FlatButton(
+                                        child: Text("Close"),
+                                        onPressed: () {
+                                          Navigator.of(context).pop();
+                                        },
+                                      ),
+                                    ],
+                                  );
+                                },
+                              );
+                            }
+                          }
+                        },
+                      ),
+                      FlatButton(
+                        child: Text("Huỷ"),
+                        onPressed: () {
+                          Navigator.pop(context);
+                        },
+                      ),
+                    ],
                   );
-                } else {
-                  showDialog(
-                    context: context,
-                    builder: (BuildContext context) {
-                      return AlertDialog(
-                        title: Text("Thông báo"),
-                        content: Text("Thanh toán không thành công"),
-                        actions: <Widget>[
-                          FlatButton(
-                            child: Text("Close"),
-                            onPressed: () {
-                              Navigator.of(context).pop();
-                            },
-                          ),
-                        ],
-                      );
-                    },
-                  );
-                }
-              }
+                },);
             },
           ),
         ],

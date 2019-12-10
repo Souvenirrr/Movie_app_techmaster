@@ -1,7 +1,7 @@
 class RegisterModel {
-  int status;
+  String status;
   String msg;
-  int data;
+  String data;
 
   RegisterModel({this.status, this.msg, this.data});
 

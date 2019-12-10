@@ -175,7 +175,7 @@ class _BookingPageState extends State<BookingPage> {
                                 ),
                                 Row(
                                   crossAxisAlignment: CrossAxisAlignment.center,
-                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                                   children: schedule.data[index].cinemaData
                                       .map((value) => RaisedButton(
                                             color: Colors.white,
