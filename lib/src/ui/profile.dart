@@ -42,6 +42,10 @@ class _ProfilePageState extends State<ProfilePage> {
     //_saveToken(loginModel.data);
   }
 
+  void _updateProfile() async{
+    final reponse = await http.post("");
+  }
+
   @override
   void initState() {
     // TODO: implement initState
@@ -76,111 +80,113 @@ class _ProfilePageState extends State<ProfilePage> {
       ),
       body:
       //infoModel == null ? Center(child: CircularProgressIndicator(),) :
-      infoModel == null ? Center(child: CircularProgressIndicator(),) :
-      Container(
-        color: Colors.grey[200],
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: <Widget>[
-            Container(
-              padding: EdgeInsets.only(top: 15),
-              child: CircleAvatar(
-                //backgroundColor: Colors.red,
-                radius: 90,
-                backgroundImage: NetworkImage(
-                    infoModel.data.userAvatar),
-              ),
-            ),
-            Container(
-              padding: EdgeInsets.only(top: 15),
-              child: Text(
-                "Đổi ảnh đại diện",
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  color: Colors.brown,
-                  fontSize: 18,
+      SingleChildScrollView(
+        child: infoModel == null ? Center(child: CircularProgressIndicator(),) :
+        Container(
+          color: Colors.grey[200],
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: <Widget>[
+              Container(
+                padding: EdgeInsets.only(top: 15),
+                child: CircleAvatar(
+                  //backgroundColor: Colors.red,
+                  radius: 90,
+                  backgroundImage: NetworkImage(
+                      infoModel.data.userAvatar),
                 ),
               ),
-            ),
-            SizedBox(
-              height: 20.0,
-            ),
-            Container(
-              decoration: BoxDecoration(
-                color: Colors.grey[200],
-                borderRadius: BorderRadius.circular(5),
+              Container(
+                padding: EdgeInsets.only(top: 15),
+                child: Text(
+                  "Đổi ảnh đại diện",
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    color: Colors.brown,
+                    fontSize: 18,
+                  ),
+                ),
               ),
-              child: Column(
-                children: <Widget>[
-                  ListTile(
-                    contentPadding: EdgeInsets.only(left: 40, right: 50),
-                    title: Text(
-                      "Tên đầy đủ",
-                      style: TextStyle(fontWeight: FontWeight.bold),
-                    ),
-                    subtitle: Text(infoModel.data.userFullname),
-                  ),
-                  ListTile(
-                    contentPadding: EdgeInsets.only(left: 40, right: 50),
-                    title: Text(
-                      "Ngày sinh",
-                      style: TextStyle(fontWeight: FontWeight.bold),
-                    ),
-                    subtitle: Text(
-                        infoModel.data.userBirthday),
-                  ),
-                  ListTile(
-                    contentPadding: EdgeInsets.only(left: 40, right: 50),
-                    title: Text(
-                      "Giới tính",
-                      style: TextStyle(fontWeight: FontWeight.bold),
-                    ),
-                    subtitle: infoModel.data.userGender == 1 ? Text("Nam") : Text("Nữ"),
-                  ),
-                  ListTile(
-                    contentPadding: EdgeInsets.only(left: 40, right: 50),
-                    title: Text(
-                      "Số điện thoại",
-                      style: TextStyle(fontWeight: FontWeight.bold),
-                    ),
-                    subtitle: Text(infoModel.data.userPhone),
-                  ),
-                  ListTile(
-                    contentPadding: EdgeInsets.only(left: 40, right: 50),
-                    title: Text(
-                      "Địa chỉ",
-                      style: TextStyle(fontWeight: FontWeight.bold),
-                    ),
-                    subtitle: Text(
-                        infoModel.data.userCity),
-                  ),
-                  ListTile(
-                    contentPadding: EdgeInsets.only(left: 40, right: 50),
-                    title: Text(
-                      "Email",
-                      style: TextStyle(fontWeight: FontWeight.bold),
-                    ),
-                    subtitle: Text(
-                        infoModel.data.userEmail),
-                  ),
-                  Container(
-                    color: Colors.grey[200],
-                    width: MediaQuery.of(context).size.width - 200,
-                    child: RaisedButton(
-                      child: Text("Logout", style: TextStyle(color: Colors.white),),
-                      onPressed: (){
-                        _removeToken();
-                        Navigator.pushNamed(context, '/');
-                      },
-                      color: Colors.blue,
-                    ),
-                  ),
-                ],
+              SizedBox(
+                height: 20.0,
               ),
-            ),
-          ],
+              Container(
+                decoration: BoxDecoration(
+                  color: Colors.grey[200],
+                  borderRadius: BorderRadius.circular(5),
+                ),
+                child: Column(
+                  children: <Widget>[
+                    ListTile(
+                      contentPadding: EdgeInsets.only(left: 40, right: 50),
+                      title: Text(
+                        "Tên đầy đủ",
+                        style: TextStyle(fontWeight: FontWeight.bold),
+                      ),
+                      subtitle: Text(infoModel.data.userFullname),
+                    ),
+                    ListTile(
+                      contentPadding: EdgeInsets.only(left: 40, right: 50),
+                      title: Text(
+                        "Ngày sinh",
+                        style: TextStyle(fontWeight: FontWeight.bold),
+                      ),
+                      subtitle: Text(
+                          infoModel.data.userBirthday),
+                    ),
+                    ListTile(
+                      contentPadding: EdgeInsets.only(left: 40, right: 50),
+                      title: Text(
+                        "Giới tính",
+                        style: TextStyle(fontWeight: FontWeight.bold),
+                      ),
+                      subtitle: infoModel.data.userGender == 1 ? Text("Nam") : Text("Nữ"),
+                    ),
+                    ListTile(
+                      contentPadding: EdgeInsets.only(left: 40, right: 50),
+                      title: Text(
+                        "Số điện thoại",
+                        style: TextStyle(fontWeight: FontWeight.bold),
+                      ),
+                      subtitle: Text(infoModel.data.userPhone),
+                    ),
+                    ListTile(
+                      contentPadding: EdgeInsets.only(left: 40, right: 50),
+                      title: Text(
+                        "Địa chỉ",
+                        style: TextStyle(fontWeight: FontWeight.bold),
+                      ),
+                      subtitle: Text(
+                          infoModel.data.userCity),
+                    ),
+                    ListTile(
+                      contentPadding: EdgeInsets.only(left: 40, right: 50),
+                      title: Text(
+                        "Email",
+                        style: TextStyle(fontWeight: FontWeight.bold),
+                      ),
+                      subtitle: Text(
+                          infoModel.data.userEmail),
+                    ),
+                    Container(
+                      color: Colors.grey[200],
+                      width: MediaQuery.of(context).size.width - 200,
+                      child: RaisedButton(
+                        child: Text("Logout", style: TextStyle(color: Colors.white),),
+                        onPressed: (){
+                          _removeToken();
+                          Navigator.pushNamed(context, '/');
+                        },
+                        color: Colors.blue,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );
