@@ -77,7 +77,7 @@ class _HomePageState extends State<HomePage> {
                 });
               },
             ),
-            title: check == true ? Text(infoModel.data.userFullname, style: TextStyle(color: Colors.blue),) :
+            title: check == true ? Text("aaa", style: TextStyle(color: Colors.blue),) :
             Text("Guest",style: TextStyle(color: Colors.blue),),
             actions: <Widget>[
               Container(
